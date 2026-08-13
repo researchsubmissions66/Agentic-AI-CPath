@@ -191,6 +191,18 @@ const modelData = [
         "bibtex": "@article{Trost_2026, title={An agentic framework for autonomous scientific discovery in cancer pathology}, volume={32}, ISSN={1546-170X}, url={http://dx.doi.org/10.1038/s41591-026-04357-y}, DOI={10.1038/s41591-026-04357-y}, number={6}, journal={Nature Medicine}, publisher={Springer Science and Business Media LLC}, author={Trost, Florian and Zhang, Bide and Aring, Ines and Bauer, Marcus and Glamann, Lennert and Wessolly, Michael and Johnson, Kyra and Göbel, Heike and Lerbs, Tristan and Sangenne, Taban and Herrmann, Peter and Mairinger, Fabian and Kopp, Christopher and Michels, Sebastian and Rasokat, Anna and Heldwein, Matthias and Wagner, Steffen and Schömig-Markiefka, Birgid and Wolf, Jürgen and Hartmann, Sylvia and Wickenhauser, Claudia and Bychkov, Andrey and Klussmann, Jens Peter and Quaas, Alexander and Buettner, Reinhard and Tolkach, Yuri}, year={2026}, month=Apr, pages={2254–2266} }",
         "paper_title": "An agentic framework for autonomous scientific discovery in cancer pathology",
         "paper_author": "Trost"
+      },
+      {
+        "name": "NOVA",
+        "year": 2025,
+        "data": "Agentic analysis framework",
+        "idea": "Agentic framework for automated histopathology analysis and scientific discovery, orchestrating tools/agents over pathology data",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2511.11324",
+        "bibtex": "@misc{vaidya2025novaagenticframeworkautomated,\n      title={NOVA: An Agentic Framework for Automated Histopathology Analysis and Discovery},\n      author={Anurag J. Vaidya and Felix Meissen and Daniel C. Castro and Shruthi Bannur and Tristan Lazard and Drew F. K. Williamson and Faisal Mahmood and Javier Alvarez-Valle and Stephanie L. Hyland and Kenza Bouzid},\n      year={2025},\n      eprint={2511.11324},\n      archivePrefix={arXiv},\n      primaryClass={cs.CL},\n      url={https://arxiv.org/abs/2511.11324},\n}",
+        "paper_title": "NOVA: An Agentic Framework for Automated Histopathology Analysis and Discovery",
+        "paper_author": "Vaidya"
       }
     ]
   },

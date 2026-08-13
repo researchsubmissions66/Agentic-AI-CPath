@@ -37,6 +37,7 @@ A comprehensive, curated summary of agentic AI systems, LLM agents, and copilots
 | **WSI-Agents** | 2025 | Collaborative multi-agent | Collaborative multi-agent system for multimodal whole-slide image analysis | [Paper](https://arxiv.org/abs/2507.14680) |
 | **SurvAgent** | 2025 | CoT multi-agent | Hierarchical CoT multi-agent system with case banking and dichotomy-based reasoning for multimodal survival prediction | [Paper](https://arxiv.org/abs/2511.16635) |
 | **Agentic Discovery** | 2026 | Autonomous discovery agents | Agentic framework for autonomous scientific discovery in cancer pathology (Nature Medicine) | [Paper](https://www.nature.com/articles/s41591-026-04357-y) |
+| **NOVA** | 2025 | Agentic analysis framework | Agentic framework for automated histopathology analysis and scientific discovery, orchestrating tools/agents over pathology data | [Paper](https://arxiv.org/abs/2511.11324) |
 
 ---
 
