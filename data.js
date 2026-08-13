@@ -522,6 +522,33 @@ const modelData = [
         "paper_author": "Liao"
       }
     ]
+  },
+  {
+    "category": "Surveys and Perspectives",
+    "models": [
+      {
+        "name": "Landscape of CPath Agents",
+        "year": 2026,
+        "date": "2026-01-06",
+        "data": "Survey of pathology agents",
+        "idea": "Survey charting the field’s shift from static analysis to autonomous diagnostic workflows, taxonomizing computational-pathology agent architectures and capabilities",
+        "paper": "https://www.techrxiv.org/doi/full/10.36227/techrxiv.176773877.76155111/v1",
+        "bibtex": "@article{Chen_2026, title={The Landscape of Computational Pathology Agents From Static Analysis to Autonomous Diagnostic Workflows}, url={http://dx.doi.org/10.36227/techrxiv.176773877.76155111/v1}, DOI={10.36227/techrxiv.176773877.76155111/v1}, publisher={Institute of Electrical and Electronics Engineers (IEEE)}, author={Chen, Jingyun and Liu, Fengchun and Jiang, Songhan and Cai, Linghan}, year={2026}, month=Jan }",
+        "paper_title": "The Landscape of Computational Pathology Agents: From Static Analysis to Autonomous Diagnostic Workflows",
+        "paper_author": "Chen"
+      },
+      {
+        "name": "CPath in the Era of Agentic AI",
+        "year": 2026,
+        "date": "2026-03-06",
+        "data": "International expert review",
+        "idea": "International expert perspective connecting foundation- and agentic-AI capabilities to clinical integration — weighing technical maturity, operational readiness, and economic/regulatory context for real-world adoption",
+        "paper": "https://arxiv.org/abs/2603.05884",
+        "bibtex": "@misc{da2026computationalpathologyeraemerging,\n      title={Computational Pathology in the Era of Emerging Foundation and Agentic AI -- International Expert Perspectives on Clinical Integration and Translational Readiness}, \n      author={Qian Da and Yijiang Chen and Min Ju and Zheyi Ji and Albert Zhou and Wenwen Wang and Matthew A Abikenari and Philip Chikontwe and Guillaume Larghero and Bowen Chen and Peter Neidlinger and Dingrong Zhong and Shuhao Wang and Wei Xu and Drew Williamson and German Corredor and Sen Yang and Le Lu and Xiao Han and Kun-Hsing Yu and Jun-zhou Huang and Laura Barisoni and Geert Litjens and Anant Madabhushi and Lifeng Zhu and Chaofu Wang and Junhan Zhao and Weiguo Hu},\n      year={2026},\n      eprint={2603.05884},\n      archivePrefix={arXiv},\n      primaryClass={cs.CE},\n      url={https://arxiv.org/abs/2603.05884}, \n}",
+        "paper_title": "Computational Pathology in the Era of Emerging Foundation and Agentic AI — International Expert Perspectives on Clinical Integration and Translational Readiness",
+        "paper_author": "Da"
+      }
+    ]
   }
 ];
 

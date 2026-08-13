@@ -105,6 +105,15 @@ A comprehensive, curated summary of agentic AI systems, LLM agents, and copilots
 
 ---
 
+## 📚 Surveys and Perspectives
+
+| Paper | Year | Focus | Resources |
+|---|---|---|---|
+| **Landscape of CPath Agents** — *The Landscape of Computational Pathology Agents: From Static Analysis to Autonomous Diagnostic Workflows* | 2026 | Survey charting the field’s shift from static analysis to autonomous diagnostic workflows, taxonomizing computational-pathology agent architectures and capabilities | [Paper](https://www.techrxiv.org/doi/full/10.36227/techrxiv.176773877.76155111/v1) |
+| **CPath in the Era of Agentic AI** — *Computational Pathology in the Era of Emerging Foundation and Agentic AI — International Expert Perspectives on Clinical Integration and Translational Readiness* | 2026 | International expert perspective connecting foundation- and agentic-AI capabilities to clinical integration — weighing technical maturity, operational readiness, and economic/regulatory context for real-world adoption | [Paper](https://arxiv.org/abs/2603.05884) |
+
+---
+
 ## 📝 Citation
 
 If you find this repository useful in your research, please consider citing it using the following BibTeX:
