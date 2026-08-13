@@ -7,8 +7,10 @@ const modelData = require('./data.js');
 const emojiMap = {
     "Interactive Copilots & Assistants": "💬",
     "Reasoning & Diagnostic Agents": "🧠",
+    "Navigation & Active-Perception Agents": "🧭",
     "Multi-Agent Systems": "🤝",
     "Tool-Use & Retrieval Agents": "🛠️",
+    "Autonomous Discovery & Research": "🔬",
     "Report Generation Agents": "📝",
     "Benchmarks & Evaluation": "📊",
     "Surveys and Perspectives": "📚"

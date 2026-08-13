@@ -47,32 +47,6 @@ const modelData = [
     "category": "Reasoning & Diagnostic Agents",
     "models": [
       {
-        "name": "PathAgent",
-        "year": 2025,
-        "date": "2025-11-21",
-        "data": "LLM agentic reasoning",
-        "idea": "LLM-based agentic reasoning for interpretable whole-slide pathology analysis via tool-use and step-wise reasoning",
-        "github": "",
-        "hf": "",
-        "paper": "https://arxiv.org/abs/2511.17052",
-        "bibtex": "@misc{chen2025pathagentinterpretableanalysiswholeslide,\n      title={PathAgent: Toward Interpretable Analysis of Whole-slide Pathology Images via Large Language Model-based Agentic Reasoning}, \n      author={Jingyun Chen and Linghan Cai and Zhikang Wang and Yi Huang and Songhan Jiang and Shenjin Huang and Hongpeng Wang and Yongbing Zhang},\n      year={2025},\n      eprint={2511.17052},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2511.17052}, \n}",
-        "paper_title": "PathAgent: Toward Interpretable Analysis of Whole-slide Pathology Images via Large Language Model-based Agentic Reasoning",
-        "paper_author": "Chen"
-      },
-      {
-        "name": "MLLM-HWSI",
-        "year": 2026,
-        "date": "2026-03-24",
-        "data": "Hierarchical WSI MLLM",
-        "idea": "Multimodal LLM for hierarchical whole-slide image understanding across magnifications",
-        "github": "",
-        "hf": "",
-        "paper": "https://arxiv.org/abs/2603.23067",
-        "bibtex": "@misc{alawode2026mllmhwsimultimodallargelanguage,\n      title={MLLM-HWSI: A Multimodal Large Language Model for Hierarchical Whole Slide Image Understanding}, \n      author={Basit Alawode and Arif Mahmood and Muaz Khalifa Al-Radi and Shahad Albastaki and Asim Khan and Muhammad Bilal and Moshira Ali Abdalla and Mohammed Bennamoun and Sajid Javed},\n      year={2026},\n      eprint={2603.23067},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2603.23067}, \n}",
-        "paper_title": "MLLM-HWSI: A Multimodal Large Language Model for Hierarchical Whole Slide Image Understanding",
-        "paper_author": "Alawode"
-      },
-      {
         "name": "CPathAgent",
         "year": 2025,
         "date": "2025-05-26",
@@ -99,6 +73,19 @@ const modelData = [
         "paper_author": "Wang"
       },
       {
+        "name": "PathAgent",
+        "year": 2025,
+        "date": "2025-11-21",
+        "data": "LLM agentic reasoning",
+        "idea": "LLM-based agentic reasoning for interpretable whole-slide pathology analysis via tool-use and step-wise reasoning",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2511.17052",
+        "bibtex": "@misc{chen2025pathagentinterpretableanalysiswholeslide,\n      title={PathAgent: Toward Interpretable Analysis of Whole-slide Pathology Images via Large Language Model-based Agentic Reasoning}, \n      author={Jingyun Chen and Linghan Cai and Zhikang Wang and Yi Huang and Songhan Jiang and Shenjin Huang and Hongpeng Wang and Yongbing Zhang},\n      year={2025},\n      eprint={2511.17052},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2511.17052}, \n}",
+        "paper_title": "PathAgent: Toward Interpretable Analysis of Whole-slide Pathology Images via Large Language Model-based Agentic Reasoning",
+        "paper_author": "Chen"
+      },
+      {
         "name": "PathReasoning",
         "year": 2025,
         "date": "2025-11-26",
@@ -123,25 +110,95 @@ const modelData = [
         "bibtex": "@misc{hua2025pathfoundagenticmultimodalmodel,\n      title={PathFound: An Agentic Multimodal Model Activating Evidence-seeking Pathological Diagnosis}, \n      author={Shengyi Hua and Jianfeng Wu and Tianle Shen and Kangzhe Hu and Zhongzhen Huang and Shujuan Ni and Zhihong Zhang and Yuan Li and Zhe Wang and Xiaofan Zhang},\n      year={2025},\n      eprint={2512.23545},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2512.23545}, \n}",
         "paper_title": "PathFound: An Agentic Multimodal Model Activating Evidence-seeking Pathological Diagnosis",
         "paper_author": "Hua"
+      },
+      {
+        "name": "MLLM-HWSI",
+        "year": 2026,
+        "date": "2026-03-24",
+        "data": "Hierarchical WSI MLLM",
+        "idea": "Multimodal LLM for hierarchical whole-slide image understanding across magnifications",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2603.23067",
+        "bibtex": "@misc{alawode2026mllmhwsimultimodallargelanguage,\n      title={MLLM-HWSI: A Multimodal Large Language Model for Hierarchical Whole Slide Image Understanding}, \n      author={Basit Alawode and Arif Mahmood and Muaz Khalifa Al-Radi and Shahad Albastaki and Asim Khan and Muhammad Bilal and Moshira Ali Abdalla and Mohammed Bennamoun and Sajid Javed},\n      year={2026},\n      eprint={2603.23067},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2603.23067}, \n}",
+        "paper_title": "MLLM-HWSI: A Multimodal Large Language Model for Hierarchical Whole Slide Image Understanding",
+        "paper_author": "Alawode"
+      }
+    ]
+  },
+  {
+    "category": "Navigation & Active-Perception Agents",
+    "models": [
+      {
+        "name": "GIANT",
+        "year": 2025,
+        "date": "2025-11-24",
+        "data": "Training-free LMM navigator",
+        "idea": "General-purpose LMM that pans, zooms, selects crops and reasons iteratively over WSIs (training-free); introduces the MultiPathQA benchmark (934 questions / 868 WSIs)",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2511.19652",
+        "bibtex": "@misc{buckley2026navigatinggigapixelpathologyimages,\n      title={Navigating Gigapixel Pathology Images with Large Multimodal Models}, \n      author={Thomas A. Buckley and Kian R. Weihrauch and Katherine Latham and Andrew Z. Zhou and Padmini A. Manrai and Arjun K. Manrai},\n      year={2026},\n      eprint={2511.19652},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2511.19652}, \n}",
+        "paper_title": "Navigating Gigapixel Pathology Images with Large Multimodal Models",
+        "paper_author": "Buckley"
+      },
+      {
+        "name": "MMNavAgent",
+        "year": 2026,
+        "date": "2026-03-02",
+        "data": "Cross-magnification navigator",
+        "idea": "Cross-magnification navigation + magnification-selection tools with memory-driven reasoning to decide where and at what magnification to inspect next",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2603.02079",
+        "bibtex": "@misc{xu2026mmnavagentmultimagnificationwsinavigation,\n      title={MMNavAgent: Multi-Magnification WSI Navigation Agent for Clinically Consistent Whole-Slide Analysis}, \n      author={Zhengyang Xu and Han Li and Jingsong Liu and Linrui Xie and Xun Ma and Xin You and Shihui Zu and Ayako Ito and Xinyu Hao and Hongming Xu and Shaohua Kevin Zhou and Nassir Navab and Peter J. Schüffler},\n      year={2026},\n      eprint={2603.02079},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2603.02079}, \n}",
+        "paper_title": "MMNavAgent: Multi-Magnification WSI Navigation Agent for Clinically Consistent Whole-Slide Analysis",
+        "paper_author": "Xu"
+      },
+      {
+        "name": "PathNavigate",
+        "year": 2026,
+        "date": "2026-05-22",
+        "data": "Training-free scan-search",
+        "idea": "Training-free Scan -> Search -> Readout agent; builds a slide-specific surprise map with shared memory, then question-conditioned PLIP retrieval to pick regions for high-res inspection",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2605.23559",
+        "bibtex": "@misc{yang2026pathnavigatetrainingfreepathologyagent,\n      title={PathNavigate: A Training-Free Pathology Agent with Surprise-Guided Scan and Shared Slide Memory for Whole-Slide Image VQA}, \n      author={Chunze Yang and Qidong Liu and Wenjie Zhao and Yue Tang and Jiusong Ge and Di Zhang and Jiashuai Liu and Lei Wu and Junbo Lu and Ni Zhang and Xian Wu and Zeyu Gao and Chen Li},\n      year={2026},\n      eprint={2605.23559},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2605.23559}, \n}",
+        "paper_title": "PathNavigate: A Training-Free Pathology Agent with Surprise-Guided Scan and Shared Slide Memory for Whole-Slide Image VQA",
+        "paper_author": "Yang"
+      },
+      {
+        "name": "BEACON",
+        "year": 2026,
+        "date": "2026-08-06",
+        "data": "Bayesian active perception",
+        "idea": "Maintains a Bayesian belief over competing diagnoses and picks the next patch by expected information gain; an evidence controller decides to answer, acquire, or zoom (training-free)",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2608.05757",
+        "bibtex": "@misc{wong2026relevancebayesianevidenceacquisition,\n      title={Beyond Relevance: Bayesian Evidence Acquisition for Agentic Whole-Slide Image Reasoning}, \n      author={Bryan Wong and Xun Xu and Huazhu Fu and Nancy F. Chen and Mun Yong Yi},\n      year={2026},\n      eprint={2608.05757},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2608.05757}, \n}",
+        "paper_title": "Beyond Relevance: Bayesian Evidence Acquisition for Agentic Whole-Slide Image Reasoning",
+        "paper_author": "Wong"
+      },
+      {
+        "name": "AdaptivePath",
+        "year": 2026,
+        "date": "2026-08-09",
+        "data": "Learned active navigator",
+        "idea": "A learned Navigator (PPO) decides where and at what scale to observe, then Morphology Interpreter -> Deliberator -> Arbiter; uses pathologist-reviewed abnormal-region labels",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2608.08648",
+        "bibtex": "@misc{chen2026agenticvisualreasoningwholeslide,\n      title={Agentic Visual Reasoning in Whole-Slide Pathology Images via Active Perception}, \n      author={Jingyun Chen and Fengchun Liu and Linghan Cai and Songhan Jiang and Shenjin Huang and Hongpeng Wang and Lequan Yu and Yongbing Zhang},\n      year={2026},\n      eprint={2608.08648},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2608.08648}, \n}",
+        "paper_title": "Agentic Visual Reasoning in Whole-Slide Pathology Images via Active Perception",
+        "paper_author": "Chen"
       }
     ]
   },
   {
     "category": "Multi-Agent Systems",
     "models": [
-      {
-        "name": "Co-evolving Agentic System",
-        "year": 2025,
-        "date": "2025-09-24",
-        "data": "Multi-agent medical imaging",
-        "idea": "Co-evolving multi-agent AI system for medical imaging analysis (including pathology); agents improve through interaction",
-        "github": "",
-        "hf": "",
-        "paper": "https://arxiv.org/abs/2509.20279",
-        "bibtex": "@misc{li2025coevolvingagenticaimedical,\n      title={A co-evolving agentic AI system for medical imaging analysis}, \n      author={Songhao Li and Jonathan Xu and Tiancheng Bao and Yuxuan Liu and Yuchen Liu and Yihang Liu and Lilin Wang and Wenhui Lei and Sheng Wang and Yinuo Xu and Yan Cui and Jialu Yao and Shunsuke Koga and Zhi Huang},\n      year={2025},\n      eprint={2509.20279},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2509.20279}, \n}",
-        "paper_title": "A co-evolving agentic AI system for medical imaging analysis",
-        "paper_author": "Li"
-      },
       {
         "name": "PathFinder",
         "year": 2025,
@@ -182,30 +239,17 @@ const modelData = [
         "paper_author": "Lyu"
       },
       {
-        "name": "SurvAgent",
+        "name": "Co-evolving Agentic System",
         "year": 2025,
-        "date": "2025-11-20",
-        "data": "CoT multi-agent",
-        "idea": "Hierarchical CoT multi-agent system with case banking and dichotomy-based reasoning for multimodal survival prediction",
+        "date": "2025-09-24",
+        "data": "Multi-agent medical imaging",
+        "idea": "Co-evolving multi-agent AI system for medical imaging analysis (including pathology); agents improve through interaction",
         "github": "",
         "hf": "",
-        "paper": "https://arxiv.org/abs/2511.16635",
-        "bibtex": "@misc{huang2025survagenthierarchicalcotenhancedcase,\n      title={SurvAgent: Hierarchical CoT-Enhanced Case Banking and Dichotomy-Based Multi-Agent System for Multimodal Survival Prediction}, \n      author={Guolin Huang and Wenting Chen and Jiaqi Yang and Xinheng Lyu and Xiaoling Luo and Sen Yang and Xiaohan Xing and Linlin Shen},\n      year={2025},\n      eprint={2511.16635},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2511.16635}, \n}",
-        "paper_title": "SurvAgent: Hierarchical CoT-Enhanced Case Banking and Dichotomy-Based Multi-Agent System for Multimodal Survival Prediction",
-        "paper_author": "Huang"
-      },
-      {
-        "name": "Agentic Discovery",
-        "year": 2026,
-        "date": "2026-04-29",
-        "data": "Autonomous discovery agents",
-        "idea": "Agentic framework for autonomous scientific discovery in cancer pathology (Nature Medicine)",
-        "github": "",
-        "hf": "",
-        "paper": "https://www.nature.com/articles/s41591-026-04357-y",
-        "bibtex": "@article{Trost_2026, title={An agentic framework for autonomous scientific discovery in cancer pathology}, volume={32}, ISSN={1546-170X}, url={http://dx.doi.org/10.1038/s41591-026-04357-y}, DOI={10.1038/s41591-026-04357-y}, number={6}, journal={Nature Medicine}, publisher={Springer Science and Business Media LLC}, author={Trost, Florian and Zhang, Bide and Aring, Ines and Bauer, Marcus and Glamann, Lennert and Wessolly, Michael and Johnson, Kyra and Göbel, Heike and Lerbs, Tristan and Sangenne, Taban and Herrmann, Peter and Mairinger, Fabian and Kopp, Christopher and Michels, Sebastian and Rasokat, Anna and Heldwein, Matthias and Wagner, Steffen and Schömig-Markiefka, Birgid and Wolf, Jürgen and Hartmann, Sylvia and Wickenhauser, Claudia and Bychkov, Andrey and Klussmann, Jens Peter and Quaas, Alexander and Buettner, Reinhard and Tolkach, Yuri}, year={2026}, month=Apr, pages={2254–2266} }",
-        "paper_title": "An agentic framework for autonomous scientific discovery in cancer pathology",
-        "paper_author": "Trost"
+        "paper": "https://arxiv.org/abs/2509.20279",
+        "bibtex": "@misc{li2025coevolvingagenticaimedical,\n      title={A co-evolving agentic AI system for medical imaging analysis}, \n      author={Songhao Li and Jonathan Xu and Tiancheng Bao and Yuxuan Liu and Yuchen Liu and Yihang Liu and Lilin Wang and Wenhui Lei and Sheng Wang and Yinuo Xu and Yan Cui and Jialu Yao and Shunsuke Koga and Zhi Huang},\n      year={2025},\n      eprint={2509.20279},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2509.20279}, \n}",
+        "paper_title": "A co-evolving agentic AI system for medical imaging analysis",
+        "paper_author": "Li"
       },
       {
         "name": "NOVA",
@@ -219,6 +263,58 @@ const modelData = [
         "bibtex": "@misc{vaidya2025novaagenticframeworkautomated,\n      title={NOVA: An Agentic Framework for Automated Histopathology Analysis and Discovery},\n      author={Anurag J. Vaidya and Felix Meissen and Daniel C. Castro and Shruthi Bannur and Tristan Lazard and Drew F. K. Williamson and Faisal Mahmood and Javier Alvarez-Valle and Stephanie L. Hyland and Kenza Bouzid},\n      year={2025},\n      eprint={2511.11324},\n      archivePrefix={arXiv},\n      primaryClass={cs.CL},\n      url={https://arxiv.org/abs/2511.11324},\n}",
         "paper_title": "NOVA: An Agentic Framework for Automated Histopathology Analysis and Discovery",
         "paper_author": "Vaidya"
+      },
+      {
+        "name": "SurvAgent",
+        "year": 2025,
+        "date": "2025-11-20",
+        "data": "CoT multi-agent",
+        "idea": "Hierarchical CoT multi-agent system with case banking and dichotomy-based reasoning for multimodal survival prediction",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2511.16635",
+        "bibtex": "@misc{huang2025survagenthierarchicalcotenhancedcase,\n      title={SurvAgent: Hierarchical CoT-Enhanced Case Banking and Dichotomy-Based Multi-Agent System for Multimodal Survival Prediction}, \n      author={Guolin Huang and Wenting Chen and Jiaqi Yang and Xinheng Lyu and Xiaoling Luo and Sen Yang and Xiaohan Xing and Linlin Shen},\n      year={2025},\n      eprint={2511.16635},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2511.16635}, \n}",
+        "paper_title": "SurvAgent: Hierarchical CoT-Enhanced Case Banking and Dichotomy-Based Multi-Agent System for Multimodal Survival Prediction",
+        "paper_author": "Huang"
+      },
+      {
+        "name": "PPGL-Swarm",
+        "year": 2026,
+        "date": "2026-03-23",
+        "data": "PPGL agent swarm",
+        "idea": "Decomposes PPGL diagnosis into microtasks for specialized agents; RL improves tool selection; produces GAPP scoring, genotype-risk alerts and multimodal reports",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2603.21700",
+        "bibtex": "@misc{liu2026ppglswarmintegratedmultimodalrisk,\n      title={PPGL-Swarm: Integrated Multimodal Risk Stratification and Hereditary Syndrome Detection in Pheochromocytoma and Paraganglioma}, \n      author={Zelin Liu and Xiangfu Yu and Jie Huang and Ge Wang and Yizhe Yuan and Zhenyu Yi and Jing Xie and Haotian Jiang and Lichi Zhang},\n      year={2026},\n      eprint={2603.21700},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2603.21700}, \n}",
+        "paper_title": "PPGL-Swarm: Integrated Multimodal Risk Stratification and Hereditary Syndrome Detection in Pheochromocytoma and Paraganglioma",
+        "paper_author": "Liu"
+      },
+      {
+        "name": "EndoGov",
+        "year": 2026,
+        "date": "2026-04-26",
+        "data": "Governed specialist agents",
+        "idea": "Specialist agents (pathology/molecular/clinical) extract evidence independently; a governance agent queries a guideline knowledge graph and applies executable clinical rules (endometrial cancer risk)",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2604.23802",
+        "bibtex": "@misc{dai2026endogovknowledgegovernedmultiagentexpert,\n      title={EndoGov: A knowledge-governed multi-agent expert system for endometrial cancer risk stratification}, \n      author={Weiye Dai and Liyun Shi and Zanxiang He and Yuling Ma and Mengyuan Lin and Dianxiang Sun and Liming Nie},\n      year={2026},\n      eprint={2604.23802},\n      archivePrefix={arXiv},\n      primaryClass={cs.MA},\n      url={https://arxiv.org/abs/2604.23802}, \n}",
+        "paper_title": "EndoGov: A knowledge-governed multi-agent expert system for endometrial cancer risk stratification",
+        "paper_author": "Dai"
+      },
+      {
+        "name": "PathPocket",
+        "year": 2026,
+        "date": "2026-06-06",
+        "data": "Hypergraph evidence agents",
+        "idea": "Collaborative agents: input understanding -> evidence retrieval -> filtering -> diagnosis, grounded in a pathology hypergraph (>4.55M entities, >7.10M relations); text/ROI/WSI inputs",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2606.08093",
+        "bibtex": "@misc{xu2026multimodalagenticcopilotevidence,\n      title={A Multi-modal Agentic Co-pilot for Evidence Grounded Computational Pathology}, \n      author={Zhe Xu and Zhengyu Zhang and Zhiyuan Cai and Jiahao Xu and Yijie Lin and Ziyi Liu and Junlin Hou and Hongyi Wang and Yuxiang Nie and Ling Liang and Yihui Wang and Yingxue Xu and Ronald Cheong Kin Chan and Li Liang and Hao Chen},\n      year={2026},\n      eprint={2606.08093},\n      archivePrefix={arXiv},\n      primaryClass={cs.AI},\n      url={https://arxiv.org/abs/2606.08093}, \n}",
+        "paper_title": "A Multi-modal Agentic Co-pilot for Evidence Grounded Computational Pathology",
+        "paper_author": "Xu"
       }
     ]
   },
@@ -239,6 +335,19 @@ const modelData = [
         "paper_author": "Zhang"
       },
       {
+        "name": "Auditable Neuro-Symbolic",
+        "year": 2026,
+        "date": "2026-01-05",
+        "data": "SQL tool-use agents",
+        "idea": "Feature Reasoning Agents generate and execute SQL over measured cellular features; a Knowledge Comparison Agent checks findings against pathology knowledge (executable tool use)",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2601.01875",
+        "bibtex": "@misc{cao2026auditableneurosymbolicreasoningpathology,\n      title={Toward Auditable Neuro-Symbolic Reasoning in Pathology: SQL as an Explicit Trace of Evidence}, \n      author={Kewen Cao and Jianxu Chen and Yongbing Zhang and Ye Zhang and Hongxiao Wang},\n      year={2026},\n      eprint={2601.01875},\n      archivePrefix={arXiv},\n      primaryClass={cs.AI},\n      url={https://arxiv.org/abs/2601.01875}, \n}",
+        "paper_title": "Toward Auditable Neuro-Symbolic Reasoning in Pathology: SQL as an Explicit Trace of Evidence",
+        "paper_author": "Cao"
+      },
+      {
         "name": "LAMMI-Pathology",
         "year": 2026,
         "date": "2026-02-21",
@@ -250,6 +359,81 @@ const modelData = [
         "bibtex": "@misc{su2026lammipathologytoolcentricbottomuplvlmagent,\n      title={LAMMI-Pathology: A Tool-Centric Bottom-Up LVLM-Agent Framework for Molecularly Informed Medical Intelligence in Pathology}, \n      author={Haoyang Su and Shaoting Zhang and Xiaosong Wang},\n      year={2026},\n      eprint={2602.18773},\n      archivePrefix={arXiv},\n      primaryClass={cs.AI},\n      url={https://arxiv.org/abs/2602.18773}, \n}",
         "paper_title": "LAMMI-Pathology: A Tool-Centric Bottom-Up LVLM-Agent Framework for Molecularly Informed Medical Intelligence in Pathology",
         "paper_author": "Su"
+      },
+      {
+        "name": "PathoSage",
+        "year": 2026,
+        "date": "2026-05-18",
+        "data": "Tool-reliability agent",
+        "idea": "Collects evidence from multiple tools/knowledge sources, adjudicates disagreements, and learns Beta-Bernoulli tool-reliability estimates so past experience shapes future tool use",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2606.07549",
+        "bibtex": "@misc{zhang2026pathosagemultisourceevidenceadjudication,\n      title={PathoSage: Towards Multi-Source Evidence Adjudication in Pathology via Experience-Aware Agentic Workflow}, \n      author={Chengyang Zhang and Wenchuan Zhang and Bo Li and Mengran Li and Bob Zhang and Yuhao Yi and Hong Bu and Jiancheng Lv},\n      year={2026},\n      eprint={2606.07549},\n      archivePrefix={arXiv},\n      primaryClass={cs.AI},\n      url={https://arxiv.org/abs/2606.07549}, \n}",
+        "paper_title": "PathoSage: Towards Multi-Source Evidence Adjudication in Pathology via Experience-Aware Agentic Workflow",
+        "paper_author": "Zhang"
+      }
+    ]
+  },
+  {
+    "category": "Autonomous Discovery & Research",
+    "models": [
+      {
+        "name": "SAGE",
+        "year": 2026,
+        "date": "2026-02-01",
+        "data": "Hypothesis gen + eval",
+        "idea": "Structured Agentic system for hypothesis Generation and Evaluation; agents perform literature-grounded contextualization and empirical validation to discover interpretable biomarkers",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2602.00953",
+        "bibtex": "@misc{nasser2026sageagenticframeworkinterpretable,\n      title={SAGE: Agentic Framework for Interpretable and Clinically Translatable Computational Pathology Biomarker Discovery}, \n      author={Sahar Almahfouz Nasser and Juan Francisco Pesantez Borja and Jincheng Liu and Sandeep Manandhar and Shikhar Shiromani and Mohammad Tanvir Hasan and Zenghan Wang and Suman Ghosh and Jinchu Li and Xuejian Xu and Aniket Ramkrishnan Iyer and Naoto Tokuyama and Twisha Shah and Tilak Pathak and Soundharya Kumaresan and Yohei Abe and Himanshu Maurya and Anant Madabhushi},\n      year={2026},\n      eprint={2602.00953},\n      archivePrefix={arXiv},\n      primaryClass={cs.LG},\n      url={https://arxiv.org/abs/2602.00953}, \n}",
+        "paper_title": "SAGE: Agentic Framework for Interpretable and Clinically Translatable Computational Pathology Biomarker Discovery",
+        "paper_author": "Nasser"
+      },
+      {
+        "name": "Agentic Discovery",
+        "year": 2026,
+        "date": "2026-04-29",
+        "data": "Autonomous discovery agents",
+        "idea": "Agentic framework for autonomous scientific discovery in cancer pathology (Nature Medicine)",
+        "github": "",
+        "hf": "",
+        "paper": "https://www.nature.com/articles/s41591-026-04357-y",
+        "bibtex": "@article{Trost_2026, title={An agentic framework for autonomous scientific discovery in cancer pathology}, volume={32}, ISSN={1546-170X}, url={http://dx.doi.org/10.1038/s41591-026-04357-y}, DOI={10.1038/s41591-026-04357-y}, number={6}, journal={Nature Medicine}, publisher={Springer Science and Business Media LLC}, author={Trost, Florian and Zhang, Bide and Aring, Ines and Bauer, Marcus and Glamann, Lennert and Wessolly, Michael and Johnson, Kyra and Göbel, Heike and Lerbs, Tristan and Sangenne, Taban and Herrmann, Peter and Mairinger, Fabian and Kopp, Christopher and Michels, Sebastian and Rasokat, Anna and Heldwein, Matthias and Wagner, Steffen and Schömig-Markiefka, Birgid and Wolf, Jürgen and Hartmann, Sylvia and Wickenhauser, Claudia and Bychkov, Andrey and Klussmann, Jens Peter and Quaas, Alexander and Buettner, Reinhard and Tolkach, Yuri}, year={2026}, month=Apr, pages={2254–2266} }",
+        "paper_title": "An agentic framework for autonomous scientific discovery in cancer pathology",
+        "paper_author": "Trost"
+      },
+      {
+        "name": "PathLab",
+        "year": 2026,
+        "date": "2026-06-12",
+        "data": "Autonomous workflow agent",
+        "idea": "Takes a natural-language CPath research objective and autonomously constructs, executes and validates an analytical workflow using pathology tools; evaluated across 12 datasets",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2606.20677",
+        "bibtex": "@misc{ma2026democratizingacceleratingaidrivenpathology,\n      title={Democratizing and accelerating AI-driven pathology research through agentic intelligence}, \n      author={Jiabo Ma and Cheng Jin and Yihui Wang and Hao Jiang and Ling Liang and Yingxue Xu and Junlin Hou and Zhengrui Guo and Zhengyu Zhang and Yifei Xia and Hongyi Wang and Fengtao Zhou and Zhe Xu and Huajun Zhou and Jiarui Ouyang and Qian Zeng and On Ki Tang and Eunhyang Park and Carolyn Glass and Ronald Cheong Kin Chan and Li Liang and Hao Chen},\n      year={2026},\n      eprint={2606.20677},\n      archivePrefix={arXiv},\n      primaryClass={cs.AI},\n      url={https://arxiv.org/abs/2606.20677}, \n}",
+        "paper_title": "Democratizing and accelerating AI-driven pathology research through agentic intelligence",
+        "paper_author": "Ma"
+      }
+    ]
+  },
+  {
+    "category": "Report Generation Agents",
+    "models": [
+      {
+        "name": "QCAgent",
+        "year": 2026,
+        "date": "2026-03-02",
+        "data": "Checklist-critique report agent",
+        "idea": "Generates a report, critiques it against a user-defined diagnostic checklist, re-searches the WSI for missing evidence, and iteratively revises",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2603.01647",
+        "bibtex": "@misc{wang2026qcagentagenticframeworkqualitycontrollable,\n      title={QCAgent: An agentic framework for quality-controllable pathology report generation from whole slide image}, \n      author={Rundong Wang and Wei Ba and Ying Zhou and Yingtai Li and Bowen Liu and Baizhi Wang and Yuhao Wang and Zhidong Yang and Kun Zhang and Rui Yan and S. Kevin Zhou},\n      year={2026},\n      eprint={2603.01647},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2603.01647}, \n}",
+        "paper_title": "QCAgent: An agentic framework for quality-controllable pathology report generation from whole slide image",
+        "paper_author": "Wang"
       }
     ]
   },
