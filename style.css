@@ -1238,3 +1238,119 @@ th.expand-col, td.expand-col {
 .modal-table tr:last-child td {
     border-bottom: none;
 }
+
+/* ==========================================================================
+   Timeline View
+   ========================================================================== */
+.timeline {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto;
+    padding-left: 2.5rem;
+    border-left: 2px solid var(--border-color);
+}
+
+.timeline-year {
+    position: relative;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 1.6rem 0 1rem;
+}
+
+.timeline-year:first-child {
+    margin-top: 0;
+}
+
+.timeline-year::before {
+    content: '';
+    position: absolute;
+    left: calc(-2.5rem - 10px);
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-2);
+    border: 3px solid var(--bg-primary);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.4rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: calc(-2.5rem - 6px);
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-1);
+    border: 2px solid var(--bg-primary);
+}
+
+.timeline-date {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent-1);
+    margin-bottom: 0.4rem;
+}
+
+.timeline-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.timeline-card:hover {
+    border-color: var(--accent-1);
+    transform: translateX(3px);
+}
+
+.timeline-card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.4rem;
+}
+
+.timeline-idea {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0.6rem;
+}
+
+.timeline-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.timeline-expand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.timeline-expand:hover {
+    background: var(--accent-1);
+    color: var(--btn-hover-text);
+    border-color: var(--accent-1);
+}

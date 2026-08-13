@@ -33,22 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentView = 'table';
     const gridBtn = document.getElementById('gridBtn');
     const tableBtn = document.getElementById('tableBtn');
+    const timelineBtn = document.getElementById('timelineBtn');
 
     // View toggle logic
-    if (gridBtn && tableBtn) {
-        gridBtn.addEventListener('click', () => {
-            currentView = 'grid';
-            gridBtn.classList.add('active');
-            tableBtn.classList.remove('active');
-            handleFilters();
-        });
-        tableBtn.addEventListener('click', () => {
-            currentView = 'table';
-            tableBtn.classList.add('active');
-            gridBtn.classList.remove('active');
-            handleFilters();
-        });
+    function setView(view, activeBtn) {
+        currentView = view;
+        [gridBtn, tableBtn, timelineBtn].forEach(b => b && b.classList.remove('active'));
+        if (activeBtn) activeBtn.classList.add('active');
+        handleFilters();
     }
+    if (gridBtn) gridBtn.addEventListener('click', () => setView('grid', gridBtn));
+    if (tableBtn) tableBtn.addEventListener('click', () => setView('table', tableBtn));
+    if (timelineBtn) timelineBtn.addEventListener('click', () => setView('timeline', timelineBtn));
 
     // Populate Category Filter
     modelData.forEach(cat => {
@@ -240,9 +236,68 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.setAttribute('aria-hidden', 'false');
     }
 
+    // Format an ISO date (YYYY-MM-DD) as "Mon D, YYYY".
+    function formatDate(iso) {
+        if (!iso) return '';
+        const [y, mo, d] = iso.split('-').map(Number);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${months[mo - 1]} ${d}, ${y}`;
+    }
+
+    // Timeline view: all (filtered) entries in one chronological stream by exact date.
+    function renderTimeline(data) {
+        const items = [];
+        data.forEach(cat => cat.models.forEach(m => items.push({ m, family: getFamilyInfo(cat.category) })));
+        if (!items.length) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="ph ph-ghost" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <h3>No entries found</h3><p>Try adjusting your search or filters.</p>
+                </div>`;
+            return;
+        }
+        items.sort((a, b) => (a.m.date || '').localeCompare(b.m.date || ''));
+        const timeline = document.createElement('div');
+        timeline.className = 'timeline';
+        let lastYear = null;
+        items.forEach(({ m, family }) => {
+            const yr = (m.date || '').slice(0, 4) || String(m.year);
+            if (yr !== lastYear) {
+                lastYear = yr;
+                const yearEl = document.createElement('div');
+                yearEl.className = 'timeline-year';
+                yearEl.textContent = yr;
+                timeline.appendChild(yearEl);
+            }
+            let linksHTML = '';
+            if (m.paper) linksHTML += `<a href="${m.paper}" target="_blank" class="icon-link paper" title="Paper"><i class="ph ph-file-text"></i></a>`;
+            if (m.github) linksHTML += `<a href="${m.github}" target="_blank" class="icon-link github" title="Code"><i class="ph ph-github-logo"></i></a>`;
+            if (m.hf) linksHTML += `<a href="${m.hf}" target="_blank" class="icon-link hf" title="Model"><i class="ph ph-cube"></i></a>`;
+            if (m.dataset) linksHTML += `<a href="${m.dataset}" target="_blank" class="icon-link dataset" title="Dataset"><i class="ph ph-database"></i></a>`;
+            if (m.website) linksHTML += `<a href="${m.website}" target="_blank" class="icon-link website" title="Website"><i class="ph ph-globe"></i></a>`;
+
+            const item = document.createElement('div');
+            item.className = 'timeline-item';
+            item.innerHTML = `
+                <div class="timeline-date">${formatDate(m.date) || m.year}</div>
+                <div class="timeline-card">
+                    <div class="timeline-card-head">
+                        <span class="model-name">${m.name}</span>
+                        <span class="tag tag-${m.tag_color || family.color}">${m.tag || m.type || family.text}</span>
+                    </div>
+                    <div class="timeline-idea">${preferAudit(m.audit_notes, m.idea)}</div>
+                    <div class="timeline-links">${linksHTML}${variantChips(m)}<button class="timeline-expand" title="Detailed Metadata"><i class="ph ph-arrows-out-simple"></i></button></div>
+                </div>`;
+            item.querySelector('.timeline-expand').addEventListener('click', () => openModal(m));
+            timeline.appendChild(item);
+        });
+        container.appendChild(timeline);
+    }
+
     // Render Data
     function render(data) {
         container.innerHTML = '';
+        if (currentView === 'timeline') { renderTimeline(data); return; }
         let hasResults = false;
 
         data.forEach(categoryGroup => {

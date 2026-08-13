@@ -5,6 +5,7 @@ const modelData = [
       {
         "name": "PathChat",
         "year": 2024,
+        "date": "2023-12-13",
         "data": "456K instructions",
         "idea": "Multimodal generative AI copilot for pathology (vision encoder + LLM); fine-tuned on 456K visual-language instructions (999K Q&A turns) for diagnostic Q&A",
         "github": "",
@@ -17,6 +18,7 @@ const modelData = [
       {
         "name": "SlideChat",
         "year": 2025,
+        "date": "2024-10-15",
         "data": "WSI instruction data",
         "idea": "Large vision-language assistant for whole-slide image understanding; slide-level VQA, description and reasoning",
         "github": "",
@@ -29,6 +31,7 @@ const modelData = [
       {
         "name": "TeamPath",
         "year": 2025,
+        "date": "2025-11-20",
         "data": "RL + router copilot",
         "idea": "RL and router-enhanced multimodal pathology copilots for expert-level diagnosis, patch summarization, and cross-modality (transcriptomic) generation",
         "github": "",
@@ -46,6 +49,7 @@ const modelData = [
       {
         "name": "PathAgent",
         "year": 2025,
+        "date": "2025-11-21",
         "data": "LLM agentic reasoning",
         "idea": "LLM-based agentic reasoning for interpretable whole-slide pathology analysis via tool-use and step-wise reasoning",
         "github": "",
@@ -58,6 +62,7 @@ const modelData = [
       {
         "name": "MLLM-HWSI",
         "year": 2026,
+        "date": "2026-03-24",
         "data": "Hierarchical WSI MLLM",
         "idea": "Multimodal LLM for hierarchical whole-slide image understanding across magnifications",
         "github": "",
@@ -70,6 +75,7 @@ const modelData = [
       {
         "name": "CPathAgent",
         "year": 2025,
+        "date": "2025-05-26",
         "data": "Agent-based FM",
         "idea": "Agent-based foundation model that mimics pathologists' zoom-in/out navigation for interpretable high-resolution analysis (patch/region/WSI unified)",
         "github": "",
@@ -82,6 +88,7 @@ const modelData = [
       {
         "name": "Pathology-CoT",
         "year": 2025,
+        "date": "2025-10-06",
         "data": "Visual CoT agent",
         "idea": "Visual chain-of-thought agent learned from expert WSI diagnosis behavior (AI Session Recorder + Pathology-o3 agent)",
         "github": "",
@@ -94,6 +101,7 @@ const modelData = [
       {
         "name": "PathReasoning",
         "year": 2025,
+        "date": "2025-11-26",
         "data": "ROI-navigation agent",
         "idea": "Multimodal reasoning agent for query-based ROI navigation on whole-slide images",
         "github": "",
@@ -106,6 +114,7 @@ const modelData = [
       {
         "name": "PathFound",
         "year": 2025,
+        "date": "2025-12-29",
         "data": "Agentic multimodal model",
         "idea": "Agentic multimodal model activating evidence-seeking pathological diagnosis",
         "github": "",
@@ -123,6 +132,7 @@ const modelData = [
       {
         "name": "Co-evolving Agentic System",
         "year": 2025,
+        "date": "2025-09-24",
         "data": "Multi-agent medical imaging",
         "idea": "Co-evolving multi-agent AI system for medical imaging analysis (including pathology); agents improve through interaction",
         "github": "",
@@ -135,6 +145,7 @@ const modelData = [
       {
         "name": "PathFinder",
         "year": 2025,
+        "date": "2025-02-13",
         "data": "Multi-agent diagnosis",
         "idea": "Multi-modal multi-agent system for medical diagnostic decision-making applied to histopathology",
         "github": "",
@@ -147,6 +158,7 @@ const modelData = [
       {
         "name": "Evidence-based Copilot",
         "year": 2025,
+        "date": "2025-06-26",
         "data": "Multi-agent copilot",
         "idea": "Evidence-based diagnostic reasoning with a multi-agent copilot for human pathology",
         "github": "",
@@ -159,6 +171,7 @@ const modelData = [
       {
         "name": "WSI-Agents",
         "year": 2025,
+        "date": "2025-07-19",
         "data": "Collaborative multi-agent",
         "idea": "Collaborative multi-agent system for multimodal whole-slide image analysis",
         "github": "",
@@ -171,6 +184,7 @@ const modelData = [
       {
         "name": "SurvAgent",
         "year": 2025,
+        "date": "2025-11-20",
         "data": "CoT multi-agent",
         "idea": "Hierarchical CoT multi-agent system with case banking and dichotomy-based reasoning for multimodal survival prediction",
         "github": "",
@@ -183,6 +197,7 @@ const modelData = [
       {
         "name": "Agentic Discovery",
         "year": 2026,
+        "date": "2026-04-29",
         "data": "Autonomous discovery agents",
         "idea": "Agentic framework for autonomous scientific discovery in cancer pathology (Nature Medicine)",
         "github": "",
@@ -195,6 +210,7 @@ const modelData = [
       {
         "name": "NOVA",
         "year": 2025,
+        "date": "2025-11-14",
         "data": "Agentic analysis framework",
         "idea": "Agentic framework for automated histopathology analysis and scientific discovery, orchestrating tools/agents over pathology data",
         "github": "",
@@ -212,6 +228,7 @@ const modelData = [
       {
         "name": "Patho-AgenticRAG",
         "year": 2025,
+        "date": "2025-08-04",
         "data": "Agentic RAG (RL)",
         "idea": "Multimodal agentic retrieval-augmented generation for pathology VLMs, trained via reinforcement learning",
         "github": "",
@@ -224,6 +241,7 @@ const modelData = [
       {
         "name": "LAMMI-Pathology",
         "year": 2026,
+        "date": "2026-02-21",
         "data": "Tool-centric LVLM-agent",
         "idea": "Tool-centric bottom-up LVLM-agent framework for molecularly informed medical intelligence in pathology",
         "github": "",
@@ -241,6 +259,7 @@ const modelData = [
       {
         "name": "PathAgentBench",
         "year": 2026,
+        "date": "2026-07-21",
         "data": "Evidence-seeking VLM benchmark",
         "idea": "Benchmark for evaluating evidence-seeking vision-language models on whole-slide pathology images",
         "github": "",
