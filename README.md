@@ -50,6 +50,7 @@ A comprehensive, curated summary of agentic AI systems, LLM agents, and copilots
 | **NOVA** | 2025 | Agentic analysis framework | Agentic framework for automated histopathology analysis and scientific discovery, orchestrating tools/agents over pathology data | [Paper](https://arxiv.org/abs/2511.11324) |
 | **SurvAgent** | 2025 | CoT multi-agent | Hierarchical CoT multi-agent system with case banking and dichotomy-based reasoning for multimodal survival prediction | [Paper](https://arxiv.org/abs/2511.16635) |
 | **PPGL-Swarm** | 2026 | PPGL agent swarm | Decomposes PPGL diagnosis into microtasks for specialized agents; RL improves tool selection; produces GAPP scoring, genotype-risk alerts and multimodal reports | [Paper](https://arxiv.org/abs/2603.21700) |
+| **BUC AI-Agent** | 2026 | Routing multi-agent (path+CT) | Clinical multi-agent system for bladder urothelial carcinoma prognosis: a routing engine dispatches among pathology-report standardization, CT segmentation, WSI analysis, phenotype maps and prognostic models (MATCH-Net fusion; 1,185 patients across 4 centers) | [Paper](https://www.nature.com/articles/s41698-026-01415-z) |
 | **EndoGov** | 2026 | Governed specialist agents | Specialist agents (pathology/molecular/clinical) extract evidence independently; a governance agent queries a guideline knowledge graph and applies executable clinical rules (endometrial cancer risk) | [Paper](https://arxiv.org/abs/2604.23802) |
 | **PathPocket** | 2026 | Hypergraph evidence agents | Collaborative agents: input understanding -> evidence retrieval -> filtering -> diagnosis, grounded in a pathology hypergraph (>4.55M entities, >7.10M relations); text/ROI/WSI inputs | [Paper](https://arxiv.org/abs/2606.08093) |
 
@@ -62,6 +63,8 @@ A comprehensive, curated summary of agentic AI systems, LLM agents, and copilots
 | **Patho-AgenticRAG** | 2025 | Agentic RAG (RL) | Multimodal agentic retrieval-augmented generation for pathology VLMs, trained via reinforcement learning | [Paper](https://arxiv.org/abs/2508.02258) |
 | **Auditable Neuro-Symbolic** | 2026 | SQL tool-use agents | Feature Reasoning Agents generate and execute SQL over measured cellular features; a Knowledge Comparison Agent checks findings against pathology knowledge (executable tool use) | [Paper](https://arxiv.org/abs/2601.01875) |
 | **LAMMI-Pathology** | 2026 | Tool-centric LVLM-agent | Tool-centric bottom-up LVLM-agent framework for molecularly informed medical intelligence in pathology | [Paper](https://arxiv.org/abs/2602.18773) |
+| **Digepath** | 2026 | GPT-4o + DigeTools | End-to-end GI-pathology agent: GPT-4o orchestrates a DigeTools library over a WSI (feature extraction -> tumor detection -> subtype identification -> ROI selection -> report generation) through multi-turn dialogue | [Paper](https://www.nature.com/articles/s41746-026-02684-5) |
+| **PathoTool** | 2026 | Confidence-gated tool use | Tool-using diagnostic agent that performs H&E diagnosis, estimates its own confidence, and only when confidence is insufficient calls a virtual-staining/IHC tool to acquire extra evidence, then integrates H&E and virtual-IHC to finalize the diagnosis (ACL ARR May 2026 submission) |  |
 | **PathoSage** | 2026 | Tool-reliability agent | Collects evidence from multiple tools/knowledge sources, adjudicates disagreements, and learns Beta-Bernoulli tool-reliability estimates so past experience shapes future tool use | [Paper](https://arxiv.org/abs/2606.07549) |
 
 ---
@@ -71,8 +74,18 @@ A comprehensive, curated summary of agentic AI systems, LLM agents, and copilots
 | System | Year | Backbone / Data | Key Idea | Resources |
 |---|---|---|---|---|
 | **SAGE** | 2026 | Hypothesis gen + eval | Structured Agentic system for hypothesis Generation and Evaluation; agents perform literature-grounded contextualization and empirical validation to discover interpretable biomarkers | [Paper](https://arxiv.org/abs/2602.00953) |
+| **ROSIE** | 2026 | LLM biomarker orchestration | LLMs orchestrate modular biomarker inference and spatiotemporal reasoning directly over routine H&E to reconstruct immune/stromal evolution in pancreatic cancer (~10.4M single-cell profiles; immune-surveillance -> exhaustion -> stromal-dominant states) | [Paper](https://www.biorxiv.org/content/10.64898/2026.04.20.719684v1) |
 | **Agentic Discovery** | 2026 | Autonomous discovery agents | Agentic framework for autonomous scientific discovery in cancer pathology (Nature Medicine) | [Paper](https://www.nature.com/articles/s41591-026-04357-y) |
 | **PathLab** | 2026 | Autonomous workflow agent | Takes a natural-language CPath research objective and autonomously constructs, executes and validates an analytical workflow using pathology tools; evaluated across 12 datasets | [Paper](https://arxiv.org/abs/2606.20677) |
+| **DERMA-Agent** | 2026 | CodeAct discovery agent | CodeAct-style Perception–Action loop over WSIs: generates biological hypotheses, writes and executes statistical code in a sandbox, evaluates survival associations across pan-cancer TCGA cohorts and revises analyses (grounded in a biological Knowledge Fabric) | [Paper](https://www.researchsquare.com/article/rs-10428278/v1) |
+
+---
+
+## 🧬 Agentic Image–Omics Reasoning
+
+| System | Year | Backbone / Data | Key Idea | Resources |
+|---|---|---|---|---|
+| **Agent SPI-WSI** | 2025 | Iterative prompt refinement | Human-in-the-loop agent that iteratively generates -> evaluates -> critiques -> refines natural-language prompts to spatially infer bulk-RNA pathway activity on WSIs (pathologist-in-the-loop; CONCH scoring, PubMed cross-check) | [Paper](https://www.biorxiv.org/content/10.1101/2025.10.16.682972v1) |
 
 ---
 

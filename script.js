@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (catLower.includes('multi-agent')) return { text: 'multi-agent', color: 'teal' };
         if (catLower.includes('tool') || catLower.includes('retrieval')) return { text: 'tool-use', color: 'green' };
         if (catLower.includes('discovery') || catLower.includes('research')) return { text: 'discovery', color: 'gray' };
+        if (catLower.includes('omics')) return { text: 'image-omics', color: 'cyan' };
         if (catLower.includes('report')) return { text: 'report-gen', color: 'pink' };
         if (catLower.includes('benchmark')) return { text: 'benchmark', color: 'orange' };
         if (catLower.includes('survey') || catLower.includes('perspective')) return { text: 'survey', color: 'gray' };

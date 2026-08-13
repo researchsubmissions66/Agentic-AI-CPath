@@ -11,6 +11,7 @@ const emojiMap = {
     "Multi-Agent Systems": "🤝",
     "Tool-Use & Retrieval Agents": "🛠️",
     "Autonomous Discovery & Research": "🔬",
+    "Agentic Image–Omics Reasoning": "🧬",
     "Report Generation Agents": "📝",
     "Benchmarks & Evaluation": "📊",
     "Surveys and Perspectives": "📚"

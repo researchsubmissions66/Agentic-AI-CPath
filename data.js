@@ -291,6 +291,17 @@ const modelData = [
         "paper_author": "Liu"
       },
       {
+        "name": "BUC AI-Agent",
+        "year": 2026,
+        "date": "2026-04-14",
+        "data": "Routing multi-agent (path+CT)",
+        "idea": "Clinical multi-agent system for bladder urothelial carcinoma prognosis: a routing engine dispatches among pathology-report standardization, CT segmentation, WSI analysis, phenotype maps and prognostic models (MATCH-Net fusion; 1,185 patients across 4 centers)",
+        "paper": "https://www.nature.com/articles/s41698-026-01415-z",
+        "bibtex": "@article{He_2026, title={Development and validation of a multimodal AI-agent system for prognosis analysis of bladder urothelial carcinoma}, volume={10}, ISSN={2397-768X}, url={http://dx.doi.org/10.1038/s41698-026-01415-z}, DOI={10.1038/s41698-026-01415-z}, number={1}, journal={npj Precision Oncology}, publisher={Springer Science and Business Media LLC}, author={He, Quanhao and Tan, Hao and Xiao, Bangxin and Peng, Xiang and Peng, Canjie and Tan, Yiwen and Liu, YingJia and Cao, Youde and Lv, Fa Jin and Zhao, Wenlong and Yue, Xiaofeng and He, Weiyang and Xiao, Mingzhao}, year={2026}, month=Apr }",
+        "paper_title": "Development and validation of a multimodal AI-agent system for prognosis analysis of bladder urothelial carcinoma",
+        "paper_author": "He"
+      },
+      {
         "name": "EndoGov",
         "year": 2026,
         "date": "2026-04-26",
@@ -361,6 +372,25 @@ const modelData = [
         "paper_author": "Su"
       },
       {
+        "name": "Digepath",
+        "year": 2026,
+        "date": "2026-05-04",
+        "data": "GPT-4o + DigeTools",
+        "idea": "End-to-end GI-pathology agent: GPT-4o orchestrates a DigeTools library over a WSI (feature extraction -> tumor detection -> subtype identification -> ROI selection -> report generation) through multi-turn dialogue",
+        "paper": "https://www.nature.com/articles/s41746-026-02684-5",
+        "bibtex": "@article{Zhu_2026, title={Subspecialty-specific foundation model for intelligent gastrointestinal pathology}, volume={9}, ISSN={2398-6352}, url={http://dx.doi.org/10.1038/s41746-026-02684-5}, DOI={10.1038/s41746-026-02684-5}, number={1}, journal={npj Digital Medicine}, publisher={Springer Science and Business Media LLC}, author={Zhu, Lianghui and Ling, Xitong and Ouyang, Minxi and Liu, Xiaoping and Guan, Tian and Fu, Mingxi and Zeng, Maomao and Cheng, Zhiqiang and Fu, Fanglei and Huang, Qiang and Zhu, Mingxi and Jin, Yibo and He, Qiming and Wang, Yizhi and Cheng, Junru and Wang, Xuanyu and Xie, Luxi and Li, Houqiang and Tian, Sufang and He, Yonghong}, year={2026}, month=May }",
+        "paper_title": "Subspecialty-specific foundation model for intelligent gastrointestinal pathology",
+        "paper_author": "Zhu"
+      },
+      {
+        "name": "PathoTool",
+        "year": 2026,
+        "date": "2026-05-15",
+        "data": "Confidence-gated tool use",
+        "idea": "Tool-using diagnostic agent that performs H&E diagnosis, estimates its own confidence, and only when confidence is insufficient calls a virtual-staining/IHC tool to acquire extra evidence, then integrates H&E and virtual-IHC to finalize the diagnosis (ACL ARR May 2026 submission)",
+        "paper": ""
+      },
+      {
         "name": "PathoSage",
         "year": 2026,
         "date": "2026-05-18",
@@ -392,6 +422,17 @@ const modelData = [
         "paper_author": "Nasser"
       },
       {
+        "name": "ROSIE",
+        "year": 2026,
+        "date": "2026-04-23",
+        "data": "LLM biomarker orchestration",
+        "idea": "LLMs orchestrate modular biomarker inference and spatiotemporal reasoning directly over routine H&E to reconstruct immune/stromal evolution in pancreatic cancer (~10.4M single-cell profiles; immune-surveillance -> exhaustion -> stromal-dominant states)",
+        "paper": "https://www.biorxiv.org/content/10.64898/2026.04.20.719684v1",
+        "bibtex": "@article{Huang_2026, title={Autonomous multimodal agents enable transparent, spatiotemporal reconstruction of immune dynamics in pancreatic cancer progression}, url={http://dx.doi.org/10.64898/2026.04.20.719684}, DOI={10.64898/2026.04.20.719684}, publisher={openRxiv}, author={Huang, Beibei and Zhu, Bo}, year={2026}, month=Apr }",
+        "paper_title": "Autonomous multimodal agents enable transparent, spatiotemporal reconstruction of immune dynamics in pancreatic cancer progression",
+        "paper_author": "Huang"
+      },
+      {
         "name": "Agentic Discovery",
         "year": 2026,
         "date": "2026-04-29",
@@ -416,6 +457,33 @@ const modelData = [
         "bibtex": "@misc{ma2026democratizingacceleratingaidrivenpathology,\n      title={Democratizing and accelerating AI-driven pathology research through agentic intelligence}, \n      author={Jiabo Ma and Cheng Jin and Yihui Wang and Hao Jiang and Ling Liang and Yingxue Xu and Junlin Hou and Zhengrui Guo and Zhengyu Zhang and Yifei Xia and Hongyi Wang and Fengtao Zhou and Zhe Xu and Huajun Zhou and Jiarui Ouyang and Qian Zeng and On Ki Tang and Eunhyang Park and Carolyn Glass and Ronald Cheong Kin Chan and Li Liang and Hao Chen},\n      year={2026},\n      eprint={2606.20677},\n      archivePrefix={arXiv},\n      primaryClass={cs.AI},\n      url={https://arxiv.org/abs/2606.20677}, \n}",
         "paper_title": "Democratizing and accelerating AI-driven pathology research through agentic intelligence",
         "paper_author": "Ma"
+      },
+      {
+        "name": "DERMA-Agent",
+        "year": 2026,
+        "date": "2026-07-22",
+        "data": "CodeAct discovery agent",
+        "idea": "CodeAct-style Perception–Action loop over WSIs: generates biological hypotheses, writes and executes statistical code in a sandbox, evaluates survival associations across pan-cancer TCGA cohorts and revises analyses (grounded in a biological Knowledge Fabric)",
+        "paper": "https://www.researchsquare.com/article/rs-10428278/v1",
+        "bibtex": "@article{Swaminathan_2026, title={DERMA-Agent: An Agentic Framework for Prognostic Discovery in Pan-Cancer Pathology}, url={http://dx.doi.org/10.21203/rs.3.rs-10428278/v1}, DOI={10.21203/rs.3.rs-10428278/v1}, publisher={Springer Science and Business Media LLC}, author={Swaminathan, Gurumurthy}, year={2026}, month=July }",
+        "paper_title": "DERMA-Agent: An Agentic Framework for Prognostic Discovery in Pan-Cancer Pathology",
+        "paper_author": "Swaminathan"
+      }
+    ]
+  },
+  {
+    "category": "Agentic Image–Omics Reasoning",
+    "models": [
+      {
+        "name": "Agent SPI-WSI",
+        "year": 2025,
+        "date": "2025-10-17",
+        "data": "Iterative prompt refinement",
+        "idea": "Human-in-the-loop agent that iteratively generates -> evaluates -> critiques -> refines natural-language prompts to spatially infer bulk-RNA pathway activity on WSIs (pathologist-in-the-loop; CONCH scoring, PubMed cross-check)",
+        "paper": "https://www.biorxiv.org/content/10.1101/2025.10.16.682972v1",
+        "bibtex": "@article{Vashistha_2025, title={Agent SPI-WSI: In context learning for computationally spatial pathway inferring on whole slide histopathology images conditioned on bulk RNA sequencing using pathologist in the loop}, url={http://dx.doi.org/10.1101/2025.10.16.682972}, DOI={10.1101/2025.10.16.682972}, publisher={openRxiv}, author={Vashistha, Rajat and Brosda, Sandra and Belle, Clemence J. and Aoude, Lauren G. and Waddell, Nic and Ghosh, Soumen and Cooper, Caroline and Barbour, Andrew P. and Vegh, Viktor}, year={2025}, month=Oct }",
+        "paper_title": "Agent SPI-WSI: In context learning for computationally spatial pathway inferring on whole slide histopathology images conditioned on bulk RNA sequencing using pathologist in the loop",
+        "paper_author": "Vashistha"
       }
     ]
   },
