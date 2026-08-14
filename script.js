@@ -54,6 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
         categoryFilter.appendChild(option);
     });
 
+    // Tag each entry with its category so the detail modal can show it.
+    modelData.forEach(cat => cat.models.forEach(m => { m._category = cat.category; }));
+
     // Helper to get family tag info based on category
     function getFamilyInfo(category) {
         const catLower = category.toLowerCase();
@@ -183,30 +186,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const facetsBlock = facetsHtml ? `<div class="modal-facets">${facetsHtml}</div>` : '';
 
+        // Overview: the full description of what the system does / what makes it agentic.
+        const overview = preferAudit(model.audit_notes, model.idea);
+        const overviewBlock = overview ? `<div class="modal-overview">${overview}</div>` : '';
+
+        // Key metadata rows.
         let rowsHtml = '';
-
         const fields = [
-            { label: 'Pretraining WSIs', value: model.audit_wsis },
-            { label: 'Patches / tiles', value: model.audit_patches },
-            { label: 'Image-text pairs', value: model.audit_image_text },
-            { label: 'WSI-report pairs', value: model.audit_wsi_report },
-            { label: 'Image-omics pairs', value: model.audit_image_omics },
-            { label: 'Dataset notes', value: model.audit_notes }
+            { label: 'Category', value: model._category },
+            { label: 'Published', value: formatDate(model.date) },
+            { label: 'Focus', value: model.data }
         ];
-
         fields.forEach(field => {
             if (isMeaningful(field.value)) {
                 rowsHtml += `<tr><th>${field.label}</th><td>${formatField(field.value)}</td></tr>`;
             }
         });
-
         const tableBlock = rowsHtml ? `<table class="modal-table"><tbody>${rowsHtml}</tbody></table>` : '';
 
-        if (!facetsBlock && !tableBlock) {
-            modalBody.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No detailed metadata found for this model.</p>';
-        } else {
-            modalBody.innerHTML = facetsBlock + tableBlock;
-        }
+        // Resource links.
+        let linkRow = '';
+        if (model.paper) linkRow += `<a href="${model.paper}" target="_blank" class="link-btn link-paper"><i class="ph ph-file-text"></i> Paper</a>`;
+        if (model.github) linkRow += `<a href="${model.github}" target="_blank" class="link-btn link-github"><i class="ph ph-github-logo"></i> Code</a>`;
+        if (model.hf) linkRow += `<a href="${model.hf}" target="_blank" class="link-btn link-hf"><i class="ph ph-cube"></i> Model</a>`;
+        if (model.dataset) linkRow += `<a href="${model.dataset}" target="_blank" class="link-btn link-dataset"><i class="ph ph-database"></i> Dataset</a>`;
+        if (model.website) linkRow += `<a href="${model.website}" target="_blank" class="link-btn link-website"><i class="ph ph-globe"></i> Website</a>`;
+        const linksBlock = linkRow ? `<div class="modal-links">${linkRow}</div>` : '';
+
+        const body = overviewBlock + tableBlock + linksBlock + facetsBlock;
+        modalBody.innerHTML = body || '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No detailed metadata found for this model.</p>';
 
         // Wire up the accordion toggles.
         modalBody.querySelectorAll('.facet-btn').forEach(btn => {
