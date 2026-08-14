@@ -35,8 +35,8 @@ A comprehensive, curated summary of agentic AI systems, LLM agents, and copilots
 |---|---|---|---|---|
 | **GIANT** | 2025 | Training-free LMM navigator | General-purpose LMM that pans, zooms, selects crops and reasons iteratively over WSIs (training-free); introduces the MultiPathQA benchmark (934 questions / 868 WSIs) | [Paper](https://arxiv.org/abs/2511.19652) |
 | **MMNavAgent** | 2026 | Cross-magnification navigator | Cross-magnification navigation + magnification-selection tools with memory-driven reasoning to decide where and at what magnification to inspect next | [Paper](https://arxiv.org/abs/2603.02079) |
-| **PathNavigate** | 2026 | Training-free scan-search | Training-free Scan -> Search -> Readout agent; builds a slide-specific surprise map with shared memory, then question-conditioned PLIP retrieval to pick regions for high-res inspection | [Paper](https://arxiv.org/abs/2605.23559) |
-| **BEACON** | 2026 | Bayesian active perception | Maintains a Bayesian belief over competing diagnoses and picks the next patch by expected information gain; an evidence controller decides to answer, acquire, or zoom (training-free) | [Paper](https://arxiv.org/abs/2608.05757) |
+| **PathNavigate** | 2026 | Training-free scan-search | Training-free Scan -> Search -> Readout agent; builds a slide-specific surprise map with shared memory, then question-conditioned PLIP retrieval to pick regions for high-res inspection | [Paper](https://arxiv.org/abs/2605.23559) • [Code](https://github.com/Pureeeee/PathNavigate_) |
+| **BEACON** | 2026 | Bayesian active perception | Maintains a Bayesian belief over competing diagnoses and picks the next patch by expected information gain; an evidence controller decides to answer, acquire, or zoom (training-free) | [Paper](https://arxiv.org/abs/2608.05757) • [Code](https://github.com/bryanwong17/BEACON) |
 | **AdaptivePath** | 2026 | Learned active navigator | A learned Navigator (PPO) decides where and at what scale to observe, then Morphology Interpreter -> Deliberator -> Arbiter; uses pathologist-reviewed abnormal-region labels | [Paper](https://arxiv.org/abs/2608.08648) |
 
 ---
