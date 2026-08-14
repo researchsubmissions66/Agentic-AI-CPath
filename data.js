@@ -8,7 +8,6 @@ const modelData = [
         "date": "2023-12-13",
         "data": "456K instructions",
         "idea": "Multimodal generative AI copilot for pathology (vision encoder + LLM); fine-tuned on 456K visual-language instructions (999K Q&A turns) for diagnostic Q&A",
-        "github": "https://github.com/superjamessyx/Generative-Foundation-AI-Assistant-for-Pathology",
         "hf": "",
         "website": "https://www.modella.ai/pathchat",
         "paper": "https://arxiv.org/abs/2312.07814",
