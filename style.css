@@ -1252,59 +1252,132 @@ th.expand-col, td.expand-col {
 }
 
 /* ==========================================================================
-   Timeline View
+   Timeline View — Spiral (one revolution per year)
    ========================================================================== */
-.timeline {
+.spiral-wrap {
     position: relative;
-    max-width: 760px;
-    margin: 0 auto;
-    padding-left: 2.5rem;
-    border-left: 2px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0 0.25rem;
 }
 
-.timeline-year {
-    position: relative;
-    font-size: 1.15rem;
+.spiral-svg {
+    width: min(680px, 100%);
+    height: auto;
+    overflow: visible;
+    touch-action: manipulation;
+}
+
+.spiral-axis {
+    stroke: var(--border-color);
+    stroke-width: 1;
+    stroke-dasharray: 3 6;
+    opacity: 0.45;
+}
+
+.spiral-yeartick { fill: var(--text-muted); }
+
+.spiral-yearlabel {
+    fill: var(--text-secondary);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.spiral-center-num {
+    fill: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    font-size: 27px;
     font-weight: 800;
+}
+
+.spiral-center-lab {
+    fill: var(--text-muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.spiral-dot {
+    cursor: pointer;
+    stroke: var(--bg-primary);
+    stroke-width: 2;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: r 0.13s ease, filter 0.13s ease;
+    animation: spiralPop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+.spiral-dot:hover,
+.spiral-dot.active {
+    r: 9;
+    filter: drop-shadow(0 0 7px currentColor);
+}
+
+@keyframes spiralPop {
+    from { opacity: 0; transform: scale(0); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spiral-dot { animation: none; }
+}
+
+.spiral-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 0.9rem;
+    margin-top: 1rem;
+    max-width: 680px;
+}
+
+.spiral-leg {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+.spiral-leg i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex: none;
+}
+
+.spiral-hovercard {
+    position: absolute;
+    z-index: 30;
+    width: 272px;
+    max-width: 78vw;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 0.75rem 0.85rem;
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+}
+
+.spiral-hovercard[hidden] { display: none; }
+
+.sc-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
     color: var(--text-primary);
-    margin: 1.6rem 0 1rem;
+    margin-bottom: 0.25rem;
 }
 
-.timeline-year:first-child {
-    margin-top: 0;
-}
+.sc-dot { width: 11px; height: 11px; border-radius: 50%; flex: none; }
 
-.timeline-year::before {
-    content: '';
-    position: absolute;
-    left: calc(-2.5rem - 10px);
-    top: 2px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--accent-2);
-    border: 3px solid var(--bg-primary);
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 1.4rem;
-}
-
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: calc(-2.5rem - 6px);
-    top: 6px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--accent-1);
-    border: 2px solid var(--bg-primary);
-}
-
-.timeline-date {
-    font-size: 0.75rem;
+.sc-date {
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -1312,56 +1385,37 @@ th.expand-col, td.expand-col {
     margin-bottom: 0.4rem;
 }
 
-.timeline-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 0.9rem 1.1rem;
-    transition: border-color 0.2s, transform 0.2s;
-}
-
-.timeline-card:hover {
-    border-color: var(--accent-1);
-    transform: translateX(3px);
-}
-
-.timeline-card-head {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.4rem;
-}
-
-.timeline-idea {
-    font-size: 0.9rem;
+.sc-idea {
+    font-size: 0.83rem;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.45;
     margin-bottom: 0.6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.timeline-links {
+.sc-links {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
 }
 
-.timeline-expand {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+.sc-details {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 7px;
+    border: 1px solid var(--card-border);
     background: transparent;
-    color: var(--text-muted);
+    color: var(--text-primary);
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
-.timeline-expand:hover {
+.sc-details:hover {
     background: var(--accent-1);
     color: var(--btn-hover-text);
     border-color: var(--accent-1);

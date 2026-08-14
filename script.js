@@ -247,10 +247,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${months[mo - 1]} ${d}, ${y}`;
     }
 
-    // Timeline view: all (filtered) entries in one chronological stream by exact date.
+    // Distinct per-category palette for the spiral timeline (10 categories).
+    const SPIRAL_COLORS = {
+        'Interactive Copilots & Assistants': '#a855f7',
+        'Reasoning & Diagnostic Agents': '#3b82f6',
+        'Navigation & Active-Perception Agents': '#eab308',
+        'Multi-Agent Systems': '#14b8a6',
+        'Tool-Use & Retrieval Agents': '#22c55e',
+        'Autonomous Discovery & Research': '#f97316',
+        'Agentic Image–Omics Reasoning': '#06b6d4',
+        'Report Generation Agents': '#ec4899',
+        'Benchmarks & Evaluation': '#ef4444',
+        'Surveys and Perspectives': '#94a3b8',
+    };
+    const spiralColor = c => SPIRAL_COLORS[c] || '#9ca3af';
+
+    // Timeline view: an Archimedean spiral — one full revolution per year, so
+    // same-month entries align radially and the field's growth reads outward.
     function renderTimeline(data) {
         const items = [];
-        data.forEach(cat => cat.models.forEach(m => items.push({ m, family: getFamilyInfo(cat.category) })));
+        data.forEach(cat => cat.models.forEach(m => items.push({ m, category: cat.category })));
+        container.innerHTML = '';
         if (!items.length) {
             container.innerHTML = `
                 <div class="empty-state">
@@ -260,41 +277,102 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         items.sort((a, b) => (a.m.date || '').localeCompare(b.m.date || ''));
-        const timeline = document.createElement('div');
-        timeline.className = 'timeline';
-        let lastYear = null;
-        items.forEach(({ m, family }) => {
-            const yr = (m.date || '').slice(0, 4) || String(m.year);
-            if (yr !== lastYear) {
-                lastYear = yr;
-                const yearEl = document.createElement('div');
-                yearEl.className = 'timeline-year';
-                yearEl.textContent = yr;
-                timeline.appendChild(yearEl);
-            }
-            let linksHTML = '';
-            if (m.paper) linksHTML += `<a href="${m.paper}" target="_blank" class="icon-link paper" title="Paper"><i class="ph ph-file-text"></i></a>`;
-            if (m.github) linksHTML += `<a href="${m.github}" target="_blank" class="icon-link github" title="Code"><i class="ph ph-github-logo"></i></a>`;
-            if (m.hf) linksHTML += `<a href="${m.hf}" target="_blank" class="icon-link hf" title="Model"><i class="ph ph-cube"></i></a>`;
-            if (m.dataset) linksHTML += `<a href="${m.dataset}" target="_blank" class="icon-link dataset" title="Dataset"><i class="ph ph-database"></i></a>`;
-            if (m.website) linksHTML += `<a href="${m.website}" target="_blank" class="icon-link website" title="Website"><i class="ph ph-globe"></i></a>`;
 
-            const item = document.createElement('div');
-            item.className = 'timeline-item';
-            item.innerHTML = `
-                <div class="timeline-date">${formatDate(m.date) || m.year}</div>
-                <div class="timeline-card">
-                    <div class="timeline-card-head">
-                        <span class="model-name">${m.name}</span>
-                        <span class="tag tag-${m.tag_color || family.color}">${m.tag || m.type || family.text}</span>
-                    </div>
-                    <div class="timeline-idea">${preferAudit(m.audit_notes, m.idea)}</div>
-                    <div class="timeline-links">${linksHTML}${variantChips(m)}<button class="timeline-expand" title="Detailed Metadata"><i class="ph ph-arrows-out-simple"></i></button></div>
-                </div>`;
-            item.querySelector('.timeline-expand').addEventListener('click', () => openModal(m));
-            timeline.appendChild(item);
+        // Map an ISO date to spiral parameter t (in years from the base year).
+        const baseYear = 2023;
+        const toT = iso => { const [y, mo, d] = (iso || (baseYear + '-01-01')).split('-').map(Number); return (y - baseYear) + (((mo - 1) * 30.44 + (d - 1)) / 365); };
+        const ts = items.map(it => toT(it.m.date));
+        const tMax = Math.max(...ts);
+
+        const R0 = 54, K = 60;                 // start radius + growth per revolution
+        const p0 = t => { const th = 2 * Math.PI * t, r = R0 + K * t; return [r * Math.sin(th), -r * Math.cos(th)]; };
+
+        // Place dots; fan collisions outward along the radius so clustered dates stay visible.
+        const placed = [];
+        const P = ts.map(t => {
+            const th = 2 * Math.PI * t; let r = R0 + K * t, x = r * Math.sin(th), y = -r * Math.cos(th), tries = 0;
+            while (tries < 60 && placed.some(q => Math.hypot(q[0] - x, q[1] - y) < 13.5)) { r += 4.6; x = r * Math.sin(th); y = -r * Math.cos(th); tries++; }
+            placed.push([x, y]); return [x, y];
         });
-        container.appendChild(timeline);
+
+        const maxR = Math.max(R0 + K * tMax, ...P.map(p => Math.hypot(p[0], p[1])));
+        const pad = 30, size = Math.ceil(2 * (maxR + pad)), c = size / 2;
+
+        // Spiral path.
+        let dPath = '';
+        for (let t = 0; t <= tMax + 0.001; t += 0.008) { const [x, y] = p0(t); dPath += (dPath ? 'L' : 'M') + (x + c).toFixed(1) + ',' + (y + c).toFixed(1); }
+
+        // Year ticks/labels at the top of each year's loop (January = 12 o'clock).
+        const years = [...new Set(items.map(it => (it.m.date || '').slice(0, 4)).filter(Boolean))];
+        let yearMarks = '';
+        years.forEach(ys => { const [x, y] = p0(toT(ys + '-01-01')); yearMarks += `<circle cx="${(x + c).toFixed(1)}" cy="${(y + c).toFixed(1)}" r="2.5" class="spiral-yeartick"/><text x="${(x + c).toFixed(1)}" y="${(y + c - 10).toFixed(1)}" class="spiral-yearlabel" text-anchor="middle">${ys}</text>`; });
+
+        // Dots.
+        let dots = '';
+        items.forEach((it, i) => { const col = spiralColor(it.category); dots += `<circle class="spiral-dot" data-idx="${i}" cx="${(P[i][0] + c).toFixed(1)}" cy="${(P[i][1] + c).toFixed(1)}" r="6" fill="${col}" style="color:${col};animation-delay:${i * 13}ms"/>`; });
+
+        // Legend (categories present, in canonical order).
+        const present = Object.keys(SPIRAL_COLORS).filter(cat => items.some(it => it.category === cat));
+        const legend = present.map(cat => `<span class="spiral-leg"><i style="background:${spiralColor(cat)}"></i>${cat}</span>`).join('');
+
+        container.innerHTML = `
+        <div class="spiral-wrap">
+          <svg viewBox="0 0 ${size} ${size}" class="spiral-svg" role="img" aria-label="Spiral timeline of ${items.length} systems, one revolution per year">
+            <defs>
+              <radialGradient id="spiralGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="var(--accent-1)" stop-opacity="0.10"/>
+                <stop offset="72%" stop-color="var(--accent-1)" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="spiralStroke" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="var(--accent-1)"/>
+                <stop offset="100%" stop-color="var(--accent-2)"/>
+              </linearGradient>
+            </defs>
+            <circle cx="${c}" cy="${c}" r="${maxR.toFixed(1)}" fill="url(#spiralGlow)"/>
+            <line x1="${c}" y1="${c}" x2="${c}" y2="${(c - maxR - 8).toFixed(1)}" class="spiral-axis"/>
+            <path d="${dPath}" fill="none" stroke="url(#spiralStroke)" stroke-width="1.6" stroke-opacity="0.4" stroke-linecap="round"/>
+            ${yearMarks}
+            ${dots}
+            <text x="${c}" y="${c - 3}" class="spiral-center-num" text-anchor="middle">${items.length}</text>
+            <text x="${c}" y="${c + 13}" class="spiral-center-lab" text-anchor="middle">systems</text>
+          </svg>
+          <div class="spiral-hovercard" id="spiralCard" hidden></div>
+          <div class="spiral-legend">${legend}</div>
+        </div>`;
+
+        // Interactions: hover → preview card (with bridge), click → modal.
+        const wrap = container.querySelector('.spiral-wrap');
+        const svgEl = container.querySelector('.spiral-svg');
+        const card = container.querySelector('#spiralCard');
+        let hideTimer;
+        const showCard = (i, dot) => {
+            clearTimeout(hideTimer);
+            const it = items[i], m = it.m;
+            let links = '';
+            if (m.paper) links += `<a href="${m.paper}" target="_blank" class="icon-link paper" title="Paper"><i class="ph ph-file-text"></i></a>`;
+            if (m.github) links += `<a href="${m.github}" target="_blank" class="icon-link github" title="Code"><i class="ph ph-github-logo"></i></a>`;
+            if (m.hf) links += `<a href="${m.hf}" target="_blank" class="icon-link hf" title="Model"><i class="ph ph-cube"></i></a>`;
+            if (m.website) links += `<a href="${m.website}" target="_blank" class="icon-link website" title="Website"><i class="ph ph-globe"></i></a>`;
+            card.innerHTML = `<div class="sc-head"><span class="sc-dot" style="background:${spiralColor(it.category)}"></span><strong>${m.name}</strong></div>
+                <div class="sc-date">${formatDate(m.date) || m.year} · ${it.category}</div>
+                <div class="sc-idea">${preferAudit(m.audit_notes, m.idea)}</div>
+                <div class="sc-links">${links}<button class="sc-details" type="button">Details</button></div>`;
+            card.hidden = false;
+            card.querySelector('.sc-details').addEventListener('click', () => openModal(m));
+            const wr = wrap.getBoundingClientRect(), dr = dot.getBoundingClientRect();
+            const cw = card.offsetWidth, ch = card.offsetHeight;
+            let left = (dr.left - wr.left + dr.width / 2) - cw / 2;
+            left = Math.max(4, Math.min(left, wrap.clientWidth - cw - 4));
+            let top = (dr.top - wr.top) - ch - 12;
+            if (top < 4) top = (dr.bottom - wr.top) + 12;
+            card.style.left = left + 'px';
+            card.style.top = top + 'px';
+        };
+        svgEl.addEventListener('mouseover', e => { const dot = e.target.closest('.spiral-dot'); if (dot) { dot.classList.add('active'); showCard(+dot.dataset.idx, dot); } });
+        svgEl.addEventListener('mouseout', e => { const dot = e.target.closest('.spiral-dot'); if (dot) { dot.classList.remove('active'); hideTimer = setTimeout(() => { card.hidden = true; }, 140); } });
+        card.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+        card.addEventListener('mouseleave', () => { card.hidden = true; });
+        svgEl.addEventListener('click', e => { const dot = e.target.closest('.spiral-dot'); if (dot) openModal(items[+dot.dataset.idx].m); });
     }
 
     // Render Data
