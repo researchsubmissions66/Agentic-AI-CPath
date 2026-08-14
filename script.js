@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ts = items.map(it => toT(it.m.date));
         const tMax = Math.max(...ts);
 
-        const R0 = 54, K = 60;                 // start radius + growth per revolution
+        const R0 = 58, K = 92;                 // start radius + growth (gap) per revolution
         const p0 = t => { const th = 2 * Math.PI * t, r = R0 + K * t; return [r * Math.sin(th), -r * Math.cos(th)]; };
 
         // Place dots; fan collisions outward along the radius so clustered dates stay visible.
