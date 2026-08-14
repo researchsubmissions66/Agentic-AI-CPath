@@ -298,13 +298,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const maxR = Math.max(R0 + K * tMax, ...P.map(p => Math.hypot(p[0], p[1])));
         const pad = 40, size = Math.ceil(2 * (maxR + pad)), c = size / 2;
 
-        // Faint month/quarter dial — a dot's angle reads as its month; kept subtle to avoid clutter.
+        // Colored quarter wedges (faint pie slices) + a month dial with all 12 labels.
         const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const onC = (f, R) => [c + R * Math.sin(2 * Math.PI * f), c - R * Math.cos(2 * Math.PI * f)];
-        let guides = '';
-        [0, 3, 6, 9].forEach(m => { const a = onC(m / 12, 34), b = onC(m / 12, maxR); guides += `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" class="spiral-spoke"/>`; });
-        for (let m = 0; m < 12; m++) { const q = m % 3 === 0, a = onC(m / 12, maxR - (q ? 14 : 8)), b = onC(m / 12, maxR + (q ? 4 : 0)); guides += `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" class="spiral-tick${q ? ' q' : ''}"/>`; }
-        [0, 3, 6, 9].forEach(m => { const [x, y] = onC(m / 12, maxR + 16); guides += `<text x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" class="spiral-monthlabel" text-anchor="middle">${mNames[m]}</text>`; });
+        let wedges = '';
+        [['q1', 0, 0.25], ['q2', 0.25, 0.5], ['q3', 0.5, 0.75], ['q4', 0.75, 1]].forEach(([cls, f1, f2]) => {
+            const a = onC(f1, maxR), b = onC(f2, maxR);
+            wedges += `<path d="M ${c},${c} L ${a[0].toFixed(1)},${a[1].toFixed(1)} A ${maxR.toFixed(1)},${maxR.toFixed(1)} 0 0 1 ${b[0].toFixed(1)},${b[1].toFixed(1)} Z" class="spiral-quarter ${cls}"/>`;
+        });
+        let ticks = '', monthLabels = '';
+        for (let m = 0; m < 12; m++) {
+            const q = m % 3 === 0, a = onC(m / 12, maxR - (q ? 14 : 8)), b = onC(m / 12, maxR + (q ? 4 : 0));
+            ticks += `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" class="spiral-tick${q ? ' q' : ''}"/>`;
+            const [lx, ly] = onC(m / 12, maxR + 17);
+            monthLabels += `<text x="${lx.toFixed(1)}" y="${(ly + 3.5).toFixed(1)}" class="spiral-monthlabel${q ? ' q' : ''}" text-anchor="middle">${mNames[m]}</text>`;
+        }
 
         // Spiral path.
         let dPath = '';
@@ -336,12 +344,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <stop offset="100%" stop-color="var(--accent-2)"/>
               </linearGradient>
             </defs>
+            ${wedges}
             <circle cx="${c}" cy="${c}" r="${maxR.toFixed(1)}" fill="url(#spiralGlow)"/>
-            ${guides}
+            ${ticks}
             <path d="${dPath}" fill="none" stroke="url(#spiralStroke)" stroke-width="1.6" stroke-opacity="0.4" stroke-linecap="round"/>
             ${yearMarks}
             ${dots}
             <text x="${c}" y="${c + 9}" class="spiral-center-num" text-anchor="middle">${items.length}</text>
+            ${monthLabels}
           </svg>
           <div class="spiral-hovercard" id="spiralCard" hidden></div>
           <div class="spiral-legend">${legend}</div>
