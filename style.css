@@ -653,7 +653,8 @@ body.light-mode .tag-cyan { color: #0891b2; }
 
 .card-links {
     display: flex;
-    gap: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-top: auto;
 }
 
@@ -662,13 +663,15 @@ body.light-mode .tag-cyan { color: #0891b2; }
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
-    padding: 0.6rem 1rem;
+    padding: 0.6rem 0.85rem;
     border-radius: 8px;
     font-size: 0.85rem;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 92px;
+    white-space: nowrap;
 }
 
 .link-paper {
@@ -1269,11 +1272,31 @@ th.expand-col, td.expand-col {
     touch-action: manipulation;
 }
 
-.spiral-axis {
+.spiral-spoke {
     stroke: var(--border-color);
     stroke-width: 1;
-    stroke-dasharray: 3 6;
-    opacity: 0.45;
+    stroke-dasharray: 2 7;
+    opacity: 0.3;
+}
+
+.spiral-tick {
+    stroke: var(--text-muted);
+    stroke-width: 1;
+    opacity: 0.3;
+}
+
+.spiral-tick.q {
+    stroke-width: 1.5;
+    opacity: 0.5;
+}
+
+.spiral-monthlabel {
+    fill: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    opacity: 0.75;
 }
 
 .spiral-yeartick { fill: var(--text-muted); }

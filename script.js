@@ -296,7 +296,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const maxR = Math.max(R0 + K * tMax, ...P.map(p => Math.hypot(p[0], p[1])));
-        const pad = 30, size = Math.ceil(2 * (maxR + pad)), c = size / 2;
+        const pad = 40, size = Math.ceil(2 * (maxR + pad)), c = size / 2;
+
+        // Faint month/quarter dial — a dot's angle reads as its month; kept subtle to avoid clutter.
+        const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const onC = (f, R) => [c + R * Math.sin(2 * Math.PI * f), c - R * Math.cos(2 * Math.PI * f)];
+        let guides = '';
+        [0, 3, 6, 9].forEach(m => { const a = onC(m / 12, 34), b = onC(m / 12, maxR); guides += `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" class="spiral-spoke"/>`; });
+        for (let m = 0; m < 12; m++) { const q = m % 3 === 0, a = onC(m / 12, maxR - (q ? 14 : 8)), b = onC(m / 12, maxR + (q ? 4 : 0)); guides += `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" class="spiral-tick${q ? ' q' : ''}"/>`; }
+        [0, 3, 6, 9].forEach(m => { const [x, y] = onC(m / 12, maxR + 16); guides += `<text x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" class="spiral-monthlabel" text-anchor="middle">${mNames[m]}</text>`; });
 
         // Spiral path.
         let dPath = '';
@@ -329,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </linearGradient>
             </defs>
             <circle cx="${c}" cy="${c}" r="${maxR.toFixed(1)}" fill="url(#spiralGlow)"/>
-            <line x1="${c}" y1="${c}" x2="${c}" y2="${(c - maxR - 8).toFixed(1)}" class="spiral-axis"/>
+            ${guides}
             <path d="${dPath}" fill="none" stroke="url(#spiralStroke)" stroke-width="1.6" stroke-opacity="0.4" stroke-linecap="round"/>
             ${yearMarks}
             ${dots}
