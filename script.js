@@ -333,8 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <path d="${dPath}" fill="none" stroke="url(#spiralStroke)" stroke-width="1.6" stroke-opacity="0.4" stroke-linecap="round"/>
             ${yearMarks}
             ${dots}
-            <text x="${c}" y="${c - 3}" class="spiral-center-num" text-anchor="middle">${items.length}</text>
-            <text x="${c}" y="${c + 13}" class="spiral-center-lab" text-anchor="middle">systems</text>
+            <text x="${c}" y="${c + 9}" class="spiral-center-num" text-anchor="middle">${items.length}</text>
           </svg>
           <div class="spiral-hovercard" id="spiralCard" hidden></div>
           <div class="spiral-legend">${legend}</div>

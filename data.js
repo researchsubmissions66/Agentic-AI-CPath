@@ -4,7 +4,7 @@ const modelData = [
     "models": [
       {
         "name": "PathChat",
-        "year": 2024,
+        "year": 2023,
         "date": "2023-12-13",
         "data": "456K instructions",
         "idea": "Multimodal generative AI copilot for pathology (vision encoder + LLM); fine-tuned on 456K visual-language instructions (999K Q&A turns) for diagnostic Q&A",
@@ -18,7 +18,7 @@ const modelData = [
       },
       {
         "name": "SlideChat",
-        "year": 2025,
+        "year": 2024,
         "date": "2024-10-15",
         "data": "WSI instruction data",
         "idea": "Large vision-language assistant for whole-slide image understanding; slide-level VQA, description and reasoning",
@@ -579,6 +579,6 @@ const modelData = [
 ];
 
 // Node.js export (browser ignores this).
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = modelData;
 }
