@@ -235,7 +235,7 @@ const modelData = [
         "date": "2026-08-09",
         "data": "Learned active navigator",
         "idea": "A learned Navigator (PPO) decides where and at what scale to observe, then Morphology Interpreter -> Deliberator -> Arbiter; uses pathologist-reviewed abnormal-region labels",
-        "github": "",
+        "github": "https://github.com/G14nTDo4/AdaptivePath",
         "hf": "",
         "paper": "https://arxiv.org/abs/2608.08648",
         "bibtex": "@misc{chen2026agenticvisualreasoningwholeslide,\n      title={Agentic Visual Reasoning in Whole-Slide Pathology Images via Active Perception}, \n      author={Jingyun Chen and Fengchun Liu and Linghan Cai and Songhan Jiang and Shenjin Huang and Hongpeng Wang and Lequan Yu and Yongbing Zhang},\n      year={2026},\n      eprint={2608.08648},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2608.08648}, \n}",
