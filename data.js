@@ -413,7 +413,7 @@ const modelData = [
         "date": "2026-02-21",
         "data": "Tool-centric LVLM-agent",
         "idea": "Tool-centric bottom-up LVLM-agent framework for molecularly informed medical intelligence in pathology",
-        "github": "",
+        "github": "https://github.com/Hoyant-Su/LAMMI",
         "hf": "",
         "paper": "https://arxiv.org/abs/2602.18773",
         "bibtex": "@misc{su2026lammipathologytoolcentricbottomuplvlmagent,\n      title={LAMMI-Pathology: A Tool-Centric Bottom-Up LVLM-Agent Framework for Molecularly Informed Medical Intelligence in Pathology}, \n      author={Haoyang Su and Shaoting Zhang and Xiaosong Wang},\n      year={2026},\n      eprint={2602.18773},\n      archivePrefix={arXiv},\n      primaryClass={cs.AI},\n      url={https://arxiv.org/abs/2602.18773}, \n}",
