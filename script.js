@@ -130,10 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Click-to-expand facets: stain, organ/tissue, and institution (when available).
         const facetDefs = [
-            { key: 'stains', label: 'Stain', icon: 'ph-drop' },
-            { key: 'audit_organs', label: 'Organ / Tissue site', icon: 'ph-tree' },
-            { key: 'audit_cohorts', label: 'Institution', icon: 'ph-buildings' },
-            { key: 'audit_downstream', label: 'Downstream tasks', icon: 'ph-list-checks' }
+            { key: 'audit_architecture', label: 'Agent architecture', icon: 'ph-flow-arrow' },
+            { key: 'audit_tools', label: 'Tools & models', icon: 'ph-wrench' },
+            { key: 'audit_tasks', label: 'Downstream tasks', icon: 'ph-list-checks' },
+            { key: 'audit_domain', label: 'Domain / focus', icon: 'ph-target' }
         ];
         let facetsHtml = '';
         facetDefs.forEach(facet => {
@@ -190,12 +190,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const overview = preferAudit(model.audit_notes, model.idea);
         const overviewBlock = overview ? `<div class="modal-overview">${overview}</div>` : '';
 
-        // Key metadata rows.
+        // Key metadata rows (quick facts).
         let rowsHtml = '';
         const fields = [
             { label: 'Category', value: model._category },
             { label: 'Published', value: formatDate(model.date) },
-            { label: 'Focus', value: model.data }
+            { label: 'Backbone', value: model.audit_backbone },
+            { label: 'Paradigm', value: model.audit_paradigm },
+            { label: 'Benchmark / dataset', value: model.audit_benchmark },
+            { label: 'Headline result', value: model.audit_result }
         ];
         fields.forEach(field => {
             if (isMeaningful(field.value)) {
@@ -213,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (model.website) linkRow += `<a href="${model.website}" target="_blank" class="link-btn link-website"><i class="ph ph-globe"></i> Website</a>`;
         const linksBlock = linkRow ? `<div class="modal-links">${linkRow}</div>` : '';
 
-        const body = overviewBlock + tableBlock + linksBlock + facetsBlock;
+        const body = overviewBlock + tableBlock + facetsBlock + linksBlock;
         modalBody.innerHTML = body || '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No detailed metadata found for this model.</p>';
 
         // Wire up the accordion toggles.
