@@ -36,6 +36,7 @@ const modelData = [
         "date": "2025-07-23",
         "data": "Multiscale MoE co-pilot",
         "idea": "Versatile reasoning-enhanced pathology co-pilot handling both ROI- and WSI-level tasks via scale-dependent supervised fine-tuning, task-aware reinforcement fine-tuning and a mixture-of-experts (2.3M ROI + 188K WSI instructions; 72 tasks) — no explicit CoT supervision",
+        "github": "https://github.com/zhexu1997/SmartPath-R1",
         "paper": "https://arxiv.org/abs/2507.17303",
         "bibtex": "@misc{xu2025versatilepathologycopilotreasoning,\n      title={A Versatile Pathology Co-pilot via Reasoning Enhanced Multimodal Large Language Model}, \n      author={Zhe Xu and Ziyi Liu and Junlin Hou and Jiabo Ma and Cheng Jin and Yihui Wang and Zhixuan Chen and Zhengyu Zhang and Fuxiang Huang and Zhengrui Guo and Fengtao Zhou and Yingxue Xu and Xi Wang and Ronald Cheong Kin Chan and Li Liang and Hao Chen},\n      year={2025},\n      eprint={2507.17303},\n      archivePrefix={arXiv},\n      primaryClass={eess.IV},\n      url={https://arxiv.org/abs/2507.17303}, \n}",
         "paper_title": "A Versatile Pathology Co-pilot via Reasoning Enhanced Multimodal Large Language Model",
@@ -66,6 +67,28 @@ const modelData = [
         "data": "RL reasoner (GRPO/DAPO)",
         "idea": "Multimodal RL-based pathology expert reasoner trained in three stages — continued pretraining (3.5M image-text pairs) → CoT supervised fine-tuning (500K) → RL with GRPO and DAPO; paired with PathoCLIP for zero-shot classification, cross-modal retrieval, VQA and MCQ",
         "github": "https://github.com/Wenchuan-Zhang/Patho-R1",
+        "variants": [
+          {
+            "name": "Patho-CLIP-B",
+            "hf": "https://huggingface.co/WenchuanZhang/Patho-CLIP-B",
+            "note": "CLIP vision encoder (base)"
+          },
+          {
+            "name": "Patho-CLIP-L",
+            "hf": "https://huggingface.co/WenchuanZhang/Patho-CLIP-L",
+            "note": "CLIP vision encoder (large)"
+          },
+          {
+            "name": "Patho-R1-3B",
+            "hf": "https://huggingface.co/WenchuanZhang/Patho-R1-3B",
+            "note": "Reasoner (3B)"
+          },
+          {
+            "name": "Patho-R1-7B",
+            "hf": "https://huggingface.co/WenchuanZhang/Patho-R1-7B",
+            "note": "Reasoner (7B)"
+          }
+        ],
         "paper": "https://arxiv.org/abs/2505.11404",
         "bibtex": "@misc{zhang2025pathor1multimodalreinforcementlearningbased,\n      title={Patho-R1: A Multimodal Reinforcement Learning-Based Pathology Expert Reasoner}, \n      author={Wenchuan Zhang and Penghao Zhang and Jingru Guo and Tao Cheng and Jie Chen and Shuwan Zhang and Zhang Zhang and Yuhao Yi and Hong Bu},\n      year={2025},\n      eprint={2505.11404},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2505.11404}, \n}",
         "paper_title": "Patho-R1: A Multimodal Reinforcement Learning-Based Pathology Expert Reasoner",
