@@ -311,8 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const tMax = Math.max(...ts);
 
         const single = spiralYear !== 'all';   // single-year view: bigger, more open loop with larger dots
-        const R0 = single ? 110 : 58, K = single ? 270 : 92;
-        const dotR = single ? 5 : 6, dotHr = single ? 8 : 9, collide = single ? 12 : 13.5;
+        const R0 = single ? 90 : 58, K = single ? 175 : 92;
+        const dotR = single ? 8 : 6, dotHr = single ? 11 : 9, collide = single ? 17 : 13.5;
         const p0 = t => { const th = 2 * Math.PI * t, r = R0 + K * t; return [r * Math.sin(th), -r * Math.cos(th)]; };
 
         // Place dots; fan collisions outward along the radius so clustered dates stay visible.
