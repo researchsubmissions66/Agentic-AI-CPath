@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // View state
     let currentView = 'table';
+    let spiralYear = 'all';
     const gridBtn = document.getElementById('gridBtn');
     const tableBtn = document.getElementById('tableBtn');
     const timelineBtn = document.getElementById('timelineBtn');
@@ -276,10 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Timeline view: an Archimedean spiral — one full revolution per year, so
     // same-month entries align radially and the field's growth reads outward.
     function renderTimeline(data) {
-        const items = [];
-        data.forEach(cat => cat.models.forEach(m => items.push({ m, category: cat.category })));
+        const allItems = [];
+        data.forEach(cat => cat.models.forEach(m => allItems.push({ m, category: cat.category })));
         container.innerHTML = '';
-        if (!items.length) {
+        if (!allItems.length) {
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="ph ph-ghost" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
@@ -287,7 +288,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>`;
             return;
         }
-        items.sort((a, b) => (a.m.date || '').localeCompare(b.m.date || ''));
+        allItems.sort((a, b) => (a.m.date || '').localeCompare(b.m.date || ''));
+
+        // Year tabs: filter the spiral to a single year (or All).
+        const allYears = [...new Set(allItems.map(it => (it.m.date || (it.m.year + '')).slice(0, 4)).filter(Boolean))].sort();
+        if (spiralYear !== 'all' && !allYears.includes(spiralYear)) spiralYear = 'all';
+        const tabs = `<button class="spiral-tab${spiralYear === 'all' ? ' active' : ''}" data-year="all">All</button>` +
+            allYears.map(y => `<button class="spiral-tab${spiralYear === y ? ' active' : ''}" data-year="${y}">${y}</button>`).join('');
+        const wireTabs = () => container.querySelectorAll('.spiral-tab').forEach(b => b.addEventListener('click', () => { spiralYear = b.dataset.year; handleFilters(); }));
+        const items = spiralYear === 'all' ? allItems : allItems.filter(it => (it.m.date || '').slice(0, 4) === spiralYear);
+        if (!items.length) {
+            container.innerHTML = `<div class="spiral-wrap"><div class="spiral-tabs">${tabs}</div>
+                <div class="empty-state"><i class="ph ph-ghost" style="font-size:2.5rem;opacity:.5"></i><h3>Nothing in ${spiralYear}</h3></div></div>`;
+            wireTabs();
+            return;
+        }
 
         // Map an ISO date to spiral parameter t (in years from the base year).
         const baseYear = 2023;
@@ -344,13 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.innerHTML = `
         <div class="spiral-wrap">
-          <div class="spiral-zoom">
-            <i class="ph ph-magnifying-glass-minus"></i>
-            <input type="range" id="spiralZoom" min="1" max="3" step="0.05" value="1" aria-label="Zoom the spiral">
-            <i class="ph ph-magnifying-glass-plus"></i>
-            <span class="spiral-zoom-val" id="spiralZoomVal">1.0×</span>
-          </div>
-          <div class="spiral-scroll">
+          <div class="spiral-tabs">${tabs}</div>
           <svg viewBox="0 0 ${size} ${size}" class="spiral-svg" role="img" aria-label="Spiral timeline of ${items.length} systems, one revolution per year">
             <defs>
               <radialGradient id="spiralGlow" cx="50%" cy="50%" r="50%">
@@ -371,7 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <text x="${c}" y="${c + 9}" class="spiral-center-num" text-anchor="middle">${items.length}</text>
             ${monthLabels}
           </svg>
-          </div>
           <div class="spiral-hovercard" id="spiralCard" hidden></div>
           <div class="spiral-legend">${legend}</div>
         </div>`;
@@ -410,13 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('mouseleave', () => { card.hidden = true; });
         svgEl.addEventListener('click', e => { const dot = e.target.closest('.spiral-dot'); if (dot) openModal(items[+dot.dataset.idx].m); });
 
-        // Zoom slider: scales the SVG within a scrollable viewport.
-        const zoom = container.querySelector('#spiralZoom');
-        const zoomVal = container.querySelector('#spiralZoomVal');
-        if (zoom) zoom.addEventListener('input', () => {
-            svgEl.style.setProperty('--spiral-zoom', zoom.value);
-            zoomVal.textContent = parseFloat(zoom.value).toFixed(1) + '×';
-        });
+        wireTabs();
     }
 
     // Render Data

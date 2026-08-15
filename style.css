@@ -1284,44 +1284,43 @@ th.expand-col, td.expand-col {
     padding: 0.5rem 0 0.25rem;
 }
 
-.spiral-zoom {
+.spiral-tabs {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    margin-bottom: 0.75rem;
-    color: var(--text-muted);
+    gap: 0.4rem;
+    margin-bottom: 1rem;
 }
 
-.spiral-zoom input[type="range"] {
-    width: 200px;
-    max-width: 45vw;
-    accent-color: var(--accent-1);
-    cursor: pointer;
-}
-
-.spiral-zoom-val {
+.spiral-tab {
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-secondary);
     font-size: 0.82rem;
     font-weight: 600;
-    color: var(--text-secondary);
-    min-width: 2.6em;
     font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: all 0.15s ease;
 }
 
-.spiral-scroll {
-    width: 100%;
-    max-height: min(82vh, 820px);
-    overflow: auto;
-    display: flex;
-    justify-content: center;
-    justify-content: safe center;
+.spiral-tab:hover {
+    border-color: var(--accent-1);
+    color: var(--text-primary);
+}
+
+.spiral-tab.active {
+    background: var(--accent-1);
+    border-color: var(--accent-1);
+    color: var(--btn-hover-text);
 }
 
 .spiral-svg {
-    width: calc(min(740px, 100%) * var(--spiral-zoom, 1));
+    width: min(740px, 100%);
     height: auto;
     overflow: visible;
-    flex: none;
     touch-action: manipulation;
 }
 
