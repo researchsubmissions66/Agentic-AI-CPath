@@ -344,6 +344,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.innerHTML = `
         <div class="spiral-wrap">
+          <div class="spiral-zoom">
+            <i class="ph ph-magnifying-glass-minus"></i>
+            <input type="range" id="spiralZoom" min="1" max="3" step="0.05" value="1" aria-label="Zoom the spiral">
+            <i class="ph ph-magnifying-glass-plus"></i>
+            <span class="spiral-zoom-val" id="spiralZoomVal">1.0×</span>
+          </div>
+          <div class="spiral-scroll">
           <svg viewBox="0 0 ${size} ${size}" class="spiral-svg" role="img" aria-label="Spiral timeline of ${items.length} systems, one revolution per year">
             <defs>
               <radialGradient id="spiralGlow" cx="50%" cy="50%" r="50%">
@@ -364,6 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <text x="${c}" y="${c + 9}" class="spiral-center-num" text-anchor="middle">${items.length}</text>
             ${monthLabels}
           </svg>
+          </div>
           <div class="spiral-hovercard" id="spiralCard" hidden></div>
           <div class="spiral-legend">${legend}</div>
         </div>`;
@@ -401,6 +409,14 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('mouseenter', () => clearTimeout(hideTimer));
         card.addEventListener('mouseleave', () => { card.hidden = true; });
         svgEl.addEventListener('click', e => { const dot = e.target.closest('.spiral-dot'); if (dot) openModal(items[+dot.dataset.idx].m); });
+
+        // Zoom slider: scales the SVG within a scrollable viewport.
+        const zoom = container.querySelector('#spiralZoom');
+        const zoomVal = container.querySelector('#spiralZoomVal');
+        if (zoom) zoom.addEventListener('input', () => {
+            svgEl.style.setProperty('--spiral-zoom', zoom.value);
+            zoomVal.textContent = parseFloat(zoom.value).toFixed(1) + '×';
+        });
     }
 
     // Render Data

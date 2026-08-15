@@ -1284,10 +1284,44 @@ th.expand-col, td.expand-col {
     padding: 0.5rem 0 0.25rem;
 }
 
+.spiral-zoom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+}
+
+.spiral-zoom input[type="range"] {
+    width: 200px;
+    max-width: 45vw;
+    accent-color: var(--accent-1);
+    cursor: pointer;
+}
+
+.spiral-zoom-val {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-width: 2.6em;
+    font-variant-numeric: tabular-nums;
+}
+
+.spiral-scroll {
+    width: 100%;
+    max-height: min(82vh, 820px);
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    justify-content: safe center;
+}
+
 .spiral-svg {
-    width: min(740px, 100%);
+    width: calc(min(740px, 100%) * var(--spiral-zoom, 1));
     height: auto;
     overflow: visible;
+    flex: none;
     touch-action: manipulation;
 }
 
