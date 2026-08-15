@@ -1294,10 +1294,10 @@ th.expand-col, td.expand-col {
 }
 
 .spiral-tab {
-    padding: 0.35rem 0.85rem;
+    padding: 0.35rem 0.9rem;
     border-radius: 999px;
-    border: 1px solid var(--border-color);
-    background: transparent;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
     color: var(--text-secondary);
     font-size: 0.82rem;
     font-weight: 600;
@@ -1307,14 +1307,14 @@ th.expand-col, td.expand-col {
 }
 
 .spiral-tab:hover {
-    border-color: var(--accent-1);
+    border-color: rgba(99, 102, 241, 0.4);
     color: var(--text-primary);
 }
 
 .spiral-tab.active {
-    background: var(--accent-1);
-    border-color: var(--accent-1);
-    color: var(--btn-hover-text);
+    background: rgba(99, 102, 241, 0.18);
+    border-color: rgba(99, 102, 241, 0.45);
+    color: var(--accent-1);
 }
 
 .spiral-svg {
