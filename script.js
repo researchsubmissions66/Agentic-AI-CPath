@@ -490,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<tr><th class="cmp-attr"><i class="ph ' + icon + '"></i>' + lbl + '</th>' +
             models.map((m, i) => '<td data-col="' + i + '">' + (isMeaningful(get(m)) ? formatField(get(m)) : '<span class="cmp-dash">—</span>') + '</td>').join('') + '</tr>'
         ).join('') +
-            '<tr><th class="cmp-attr"><i class="ph ph-link"></i>Resources</th>' + models.map((m, i) => '<td class="cmp-links" data-col="' + i + '">' + compareLinks(m) + '</td>').join('') + '</tr>';
+            '<tr><th class="cmp-attr"><i class="ph ph-link"></i>Resources</th>' + models.map((m, i) => '<td data-col="' + i + '"><div class="cmp-links">' + compareLinks(m) + '</div></td>').join('') + '</tr>';
 
         document.getElementById('compareTitle').textContent = 'Compare · ' + categoryName + ' (' + models.length + ')';
         document.getElementById('compareBody').innerHTML = '<div class="cmp-scroll"><table class="cmp-table"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
