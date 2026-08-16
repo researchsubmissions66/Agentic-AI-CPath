@@ -529,7 +529,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const wrap = document.createElement('div');
         wrap.className = 'tree-wrap';
-        wrap.innerHTML = '<div class="tree-hint"><i class="ph ph-hand-pointing"></i> Click a category to expand · drag nodes · scroll to zoom · click a paper for details</div>';
+        wrap.innerHTML = '<div class="tree-hint"><i class="ph ph-hand-pointing"></i> Click a category to expand · drag nodes · scroll to zoom · click a paper for details</div>' +
+            '<div class="tree-spread" title="Node spacing"><i class="ph ph-arrows-in-line-horizontal"></i><input type="range" id="treeSpread" min="0.5" max="2.5" step="0.05" value="1" aria-label="Node spacing"><i class="ph ph-arrows-out-line-horizontal"></i></div>';
         container.appendChild(wrap);
 
         const width = wrap.clientWidth || 900, height = 620;
@@ -540,12 +541,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const radius = d => d.kind === 'root' ? 15 : d.kind === 'cat' ? 10 : 6;
 
+        let spread = 1;
+        const linkDist = d => (d.target.kind === 'model' ? 80 : 150) * spread;
+        const chargeStr = d => (d.kind === 'model' ? -220 : -650) * spread;
+        const collideR = d => radius(d) + (d.kind === 'model' ? 34 : 24) * spread;
+
         const sim = d3.forceSimulation()
-            .force('link', d3.forceLink().id(d => d.id).distance(d => d.target.kind === 'model' ? 80 : 150).strength(0.45))
-            .force('charge', d3.forceManyBody().strength(d => d.kind === 'model' ? -220 : -650))
+            .force('link', d3.forceLink().id(d => d.id).distance(linkDist).strength(0.45))
+            .force('charge', d3.forceManyBody().strength(chargeStr))
             .force('center', d3.forceCenter(width / 2, height / 2))
-            .force('collide', d3.forceCollide().radius(d => radius(d) + (d.kind === 'model' ? 34 : 24)).strength(0.9))
+            .force('collide', d3.forceCollide().radius(collideR).strength(0.9))
             .on('tick', ticked);
+
+        const spreadInput = wrap.querySelector('#treeSpread');
+        if (spreadInput) spreadInput.addEventListener('input', () => {
+            spread = +spreadInput.value;
+            sim.force('link').distance(linkDist);
+            sim.force('charge').strength(chargeStr);
+            sim.force('collide').radius(collideR);
+            sim.alpha(0.6).restart();
+        });
 
         let linkSel = linkG.selectAll('line');
         let nodeSel = nodeG.selectAll('g');
