@@ -1496,3 +1496,105 @@ body.light-mode .spiral-quarter.q4 { fill: rgba(234, 88, 12, 0.055); }
     color: var(--btn-hover-text);
     border-color: var(--accent-1);
 }
+
+/* ==========================================================================
+   Category Compare (side-by-side table)
+   ========================================================================== */
+.category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.compare-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex: none;
+}
+.compare-btn i { font-size: 1rem; }
+.compare-btn:hover { border-color: rgba(99, 102, 241, 0.4); color: var(--text-primary); }
+
+.compare-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2vh 2vw;
+}
+.compare-overlay.open { display: flex; }
+
+.compare-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    width: 96vw;
+    max-width: 1400px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+.compare-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.compare-head h3 { margin: 0; font-family: 'Outfit', sans-serif; font-size: 1.15rem; color: var(--text-primary); }
+.close-compare { background: none; border: none; color: var(--text-muted); font-size: 1.8rem; line-height: 1; cursor: pointer; }
+.close-compare:hover { color: var(--text-primary); }
+
+.compare-body { flex: 1; min-height: 0; overflow: hidden; }
+.cmp-scroll { overflow: auto; max-height: 100%; }
+
+.cmp-table { border-collapse: separate; border-spacing: 0; font-size: 0.83rem; width: max-content; }
+.cmp-table th, .cmp-table td {
+    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+}
+.cmp-table td { min-width: 230px; max-width: 300px; color: var(--text-secondary); line-height: 1.45; }
+.cmp-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-weight: 700;
+    white-space: nowrap;
+}
+.cmp-model .cmp-year { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
+.cmp-attr, .cmp-corner {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--bg-primary);
+    min-width: 160px;
+    max-width: 180px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+.cmp-table thead .cmp-corner { z-index: 3; }
+.cmp-dash { color: var(--text-muted); opacity: 0.5; }
+.cmp-links { display: flex; gap: 0.4rem; flex-wrap: wrap; }

@@ -424,6 +424,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Render Data
+    // Resource icon-links for a model (used in the compare table).
+    function compareLinks(m) {
+        let s = '';
+        if (m.paper) s += `<a href="${m.paper}" target="_blank" class="icon-link paper" title="Paper"><i class="ph ph-file-text"></i></a>`;
+        if (m.github) s += `<a href="${m.github}" target="_blank" class="icon-link github" title="Code"><i class="ph ph-github-logo"></i></a>`;
+        if (m.hf) s += `<a href="${m.hf}" target="_blank" class="icon-link hf" title="Model"><i class="ph ph-cube"></i></a>`;
+        if (m.dataset) s += `<a href="${m.dataset}" target="_blank" class="icon-link dataset" title="Dataset"><i class="ph ph-database"></i></a>`;
+        if (m.website) s += `<a href="${m.website}" target="_blank" class="icon-link website" title="Website"><i class="ph ph-globe"></i></a>`;
+        return s || '<span class="cmp-dash">—</span>';
+    }
+
+    function closeCompare() {
+        const o = document.getElementById('compareOverlay');
+        if (o) { o.classList.remove('open'); document.body.style.overflow = ''; }
+    }
+
+    // Side-by-side comparison table for a category (models = columns, attributes = rows).
+    function openCompare(categoryName, models) {
+        let overlay = document.getElementById('compareOverlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'compareOverlay';
+            overlay.className = 'compare-overlay';
+            overlay.innerHTML = '<div class="compare-panel"><div class="compare-head"><h3 id="compareTitle"></h3><button class="close-compare" id="closeCompare" aria-label="Close">&times;</button></div><div class="compare-body" id="compareBody"></div></div>';
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeCompare(); });
+            overlay.querySelector('#closeCompare').addEventListener('click', closeCompare);
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCompare(); });
+        }
+        const rowDefs = [
+            ['Year', m => m.year != null ? String(m.year) : ''],
+            ['Backbone / Data', m => m.data],
+            ['Key idea', m => m.idea],
+            ['Pre-training objective', m => m.audit_objective],
+            ['Agent architecture', m => m.audit_architecture],
+            ['Tools & models', m => m.audit_tools],
+            ['Backbone', m => m.audit_backbone],
+            ['Paradigm', m => m.audit_paradigm],
+            ['Tasks', m => m.audit_tasks || m.audit_downstream],
+            ['Domain / focus', m => m.audit_domain || m.audit_organs],
+            ['Benchmark / dataset', m => m.audit_benchmark],
+            ['Headline result', m => m.audit_result],
+            ['Pretraining WSIs', m => m.audit_wsis],
+            ['Patches / tiles', m => m.audit_patches],
+            ['Image–text pairs', m => m.audit_image_text],
+            ['WSI–report pairs', m => m.audit_wsi_report],
+            ['Image–omics pairs', m => m.audit_image_omics],
+            ['Institution / data sources', m => m.audit_cohorts],
+            ['Scanners / vendors', m => m.audit_scanners],
+            ['Omics modality & scale', m => m.audit_omics],
+            ['Stain', m => m.stains],
+            ['Notes', m => m.audit_notes],
+        ].filter(([, get]) => models.some(m => isMeaningful(get(m))));
+
+        const head = '<tr><th class="cmp-corner">' + models.length + ' entries</th>' +
+            models.map(m => '<th class="cmp-model">' + m.name + (m.year != null ? ' <span class="cmp-year">' + m.year + '</span>' : '') + '</th>').join('') + '</tr>';
+        const body = rowDefs.map(([lbl, get]) =>
+            '<tr><th class="cmp-attr">' + lbl + '</th>' +
+            models.map(m => '<td>' + (isMeaningful(get(m)) ? formatField(get(m)) : '<span class="cmp-dash">—</span>') + '</td>').join('') + '</tr>'
+        ).join('') +
+            '<tr><th class="cmp-attr">Resources</th>' + models.map(m => '<td class="cmp-links">' + compareLinks(m) + '</td>').join('') + '</tr>';
+
+        document.getElementById('compareTitle').textContent = 'Compare · ' + categoryName + ' (' + models.length + ')';
+        document.getElementById('compareBody').innerHTML = '<div class="cmp-scroll"><table class="cmp-table"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
     function render(data) {
         container.innerHTML = '';
         if (currentView === 'timeline') { renderTimeline(data); return; }
@@ -436,10 +504,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const section = document.createElement('div');
             section.className = 'category-section';
 
+            const header = document.createElement('div');
+            header.className = 'category-header';
             const title = document.createElement('h2');
             title.className = 'category-title';
             title.textContent = categoryGroup.category;
-            section.appendChild(title);
+            header.appendChild(title);
+            if (categoryGroup.models.length > 1) {
+                const cmpBtn = document.createElement('button');
+                cmpBtn.type = 'button';
+                cmpBtn.className = 'compare-btn';
+                cmpBtn.innerHTML = '<i class="ph ph-columns"></i> Compare';
+                const grpName = categoryGroup.category, grpModels = categoryGroup.models;
+                cmpBtn.addEventListener('click', () => openCompare(grpName, grpModels));
+                header.appendChild(cmpBtn);
+            }
+            section.appendChild(header);
 
             const family = getFamilyInfo(categoryGroup.category);
 
