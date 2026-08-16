@@ -1692,7 +1692,7 @@ body.light-mode .spiral-quarter.q4 { fill: rgba(234, 88, 12, 0.055); }
     align-items: center;
     gap: 0.35rem;
 }
-.tree-link { stroke: var(--border-color); stroke-opacity: 0.55; stroke-width: 1.2px; }
+.tree-link { stroke: var(--text-muted); stroke-opacity: 0.5; stroke-width: 1.4px; }
 .tree-node { cursor: pointer; }
 .tree-node circle { stroke: var(--bg-primary); stroke-width: 2px; transition: stroke 0.15s; }
 .tree-node:hover circle { stroke: var(--accent-1); stroke-width: 3px; }
