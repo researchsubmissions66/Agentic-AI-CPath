@@ -1563,8 +1563,8 @@ body.light-mode .spiral-quarter.q4 { fill: rgba(234, 88, 12, 0.055); }
 .close-compare { background: none; border: none; color: var(--text-muted); font-size: 1.8rem; line-height: 1; cursor: pointer; }
 .close-compare:hover { color: var(--text-primary); }
 
-.compare-body { flex: 1; min-height: 0; overflow: hidden; }
-.cmp-scroll { overflow: auto; max-height: 100%; }
+.compare-body { flex: 1; min-height: 0; overflow: auto; }
+.cmp-scroll { width: max-content; min-width: 100%; }
 
 .cmp-table { border-collapse: separate; border-spacing: 0; font-size: 0.83rem; width: max-content; }
 .cmp-table th, .cmp-table td {
@@ -1598,3 +1598,4 @@ body.light-mode .spiral-quarter.q4 { fill: rgba(234, 88, 12, 0.055); }
 .cmp-table thead .cmp-corner { z-index: 3; }
 .cmp-dash { color: var(--text-muted); opacity: 0.5; }
 .cmp-links { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.cmp-attr i { color: var(--accent-1); margin-right: 0.4rem; vertical-align: -1px; }

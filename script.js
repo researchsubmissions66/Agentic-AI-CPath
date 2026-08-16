@@ -454,37 +454,37 @@ document.addEventListener('DOMContentLoaded', () => {
             document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCompare(); });
         }
         const rowDefs = [
-            ['Year', m => m.year != null ? String(m.year) : ''],
-            ['Backbone / Data', m => m.data],
-            ['Key idea', m => m.idea],
-            ['Pre-training objective', m => m.audit_objective],
-            ['Agent architecture', m => m.audit_architecture],
-            ['Tools & models', m => m.audit_tools],
-            ['Backbone', m => m.audit_backbone],
-            ['Paradigm', m => m.audit_paradigm],
-            ['Tasks', m => m.audit_tasks || m.audit_downstream],
-            ['Domain / focus', m => m.audit_domain || m.audit_organs],
-            ['Benchmark / dataset', m => m.audit_benchmark],
-            ['Headline result', m => m.audit_result],
-            ['Pretraining WSIs', m => m.audit_wsis],
-            ['Patches / tiles', m => m.audit_patches],
-            ['Image–text pairs', m => m.audit_image_text],
-            ['WSI–report pairs', m => m.audit_wsi_report],
-            ['Image–omics pairs', m => m.audit_image_omics],
-            ['Institution / data sources', m => m.audit_cohorts],
-            ['Scanners / vendors', m => m.audit_scanners],
-            ['Omics modality & scale', m => m.audit_omics],
-            ['Stain', m => m.stains],
-            ['Notes', m => m.audit_notes],
+            ['Year', m => m.year != null ? String(m.year) : '', 'ph-calendar-blank'],
+            ['Backbone / Data', m => m.data, 'ph-database'],
+            ['Key idea', m => m.idea, 'ph-lightbulb'],
+            ['Pre-training objective', m => m.audit_objective, 'ph-atom'],
+            ['Agent architecture', m => m.audit_architecture, 'ph-flow-arrow'],
+            ['Tools & models', m => m.audit_tools, 'ph-wrench'],
+            ['Backbone', m => m.audit_backbone, 'ph-cpu'],
+            ['Paradigm', m => m.audit_paradigm, 'ph-path'],
+            ['Tasks', m => m.audit_tasks || m.audit_downstream, 'ph-list-checks'],
+            ['Domain / focus', m => m.audit_domain || m.audit_organs, 'ph-target'],
+            ['Benchmark / dataset', m => m.audit_benchmark, 'ph-ruler'],
+            ['Headline result', m => m.audit_result, 'ph-trophy'],
+            ['Pretraining WSIs', m => m.audit_wsis, 'ph-images'],
+            ['Patches / tiles', m => m.audit_patches, 'ph-squares-four'],
+            ['Image–text pairs', m => m.audit_image_text, 'ph-chat-text'],
+            ['WSI–report pairs', m => m.audit_wsi_report, 'ph-file-text'],
+            ['Image–omics pairs', m => m.audit_image_omics, 'ph-dna'],
+            ['Institution / data sources', m => m.audit_cohorts, 'ph-buildings'],
+            ['Scanners / vendors', m => m.audit_scanners, 'ph-scan'],
+            ['Omics modality & scale', m => m.audit_omics, 'ph-dna'],
+            ['Stain', m => m.stains, 'ph-drop'],
+            ['Notes', m => m.audit_notes, 'ph-note'],
         ].filter(([, get]) => models.some(m => isMeaningful(get(m))));
 
         const head = '<tr><th class="cmp-corner">' + models.length + ' entries</th>' +
             models.map(m => '<th class="cmp-model">' + m.name + (m.year != null ? ' <span class="cmp-year">' + m.year + '</span>' : '') + '</th>').join('') + '</tr>';
-        const body = rowDefs.map(([lbl, get]) =>
-            '<tr><th class="cmp-attr">' + lbl + '</th>' +
+        const body = rowDefs.map(([lbl, get, icon]) =>
+            '<tr><th class="cmp-attr"><i class="ph ' + icon + '"></i>' + lbl + '</th>' +
             models.map(m => '<td>' + (isMeaningful(get(m)) ? formatField(get(m)) : '<span class="cmp-dash">—</span>') + '</td>').join('') + '</tr>'
         ).join('') +
-            '<tr><th class="cmp-attr">Resources</th>' + models.map(m => '<td class="cmp-links">' + compareLinks(m) + '</td>').join('') + '</tr>';
+            '<tr><th class="cmp-attr"><i class="ph ph-link"></i>Resources</th>' + models.map(m => '<td class="cmp-links">' + compareLinks(m) + '</td>').join('') + '</tr>';
 
         document.getElementById('compareTitle').textContent = 'Compare · ' + categoryName + ' (' + models.length + ')';
         document.getElementById('compareBody').innerHTML = '<div class="cmp-scroll"><table class="cmp-table"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
