@@ -452,6 +452,12 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.addEventListener('click', e => { if (e.target === overlay) closeCompare(); });
             overlay.querySelector('#closeCompare').addEventListener('click', closeCompare);
             document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCompare(); });
+            // Remove a paper's column from the comparison (view-only, this session).
+            overlay.querySelector('#compareBody').addEventListener('click', e => {
+                const btn = e.target.closest('.cmp-remove');
+                if (!btn) return;
+                overlay.querySelectorAll('[data-col="' + btn.dataset.col + '"]').forEach(el => el.remove());
+            });
         }
         const rowDefs = [
             ['Year', m => m.year != null ? String(m.year) : '', 'ph-calendar-blank'],
@@ -479,12 +485,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ].filter(([, get]) => models.some(m => isMeaningful(get(m))));
 
         const head = '<tr><th class="cmp-corner">' + models.length + ' entries</th>' +
-            models.map(m => '<th class="cmp-model">' + m.name + (m.year != null ? ' <span class="cmp-year">' + m.year + '</span>' : '') + '</th>').join('') + '</tr>';
+            models.map((m, i) => '<th class="cmp-model" data-col="' + i + '"><span class="cmp-mname">' + m.name + (m.year != null ? ' <span class="cmp-year">' + m.year + '</span>' : '') + '</span><button class="cmp-remove" data-col="' + i + '" title="Remove from comparison">&times;</button></th>').join('') + '</tr>';
         const body = rowDefs.map(([lbl, get, icon]) =>
             '<tr><th class="cmp-attr"><i class="ph ' + icon + '"></i>' + lbl + '</th>' +
-            models.map(m => '<td>' + (isMeaningful(get(m)) ? formatField(get(m)) : '<span class="cmp-dash">—</span>') + '</td>').join('') + '</tr>'
+            models.map((m, i) => '<td data-col="' + i + '">' + (isMeaningful(get(m)) ? formatField(get(m)) : '<span class="cmp-dash">—</span>') + '</td>').join('') + '</tr>'
         ).join('') +
-            '<tr><th class="cmp-attr"><i class="ph ph-link"></i>Resources</th>' + models.map(m => '<td class="cmp-links">' + compareLinks(m) + '</td>').join('') + '</tr>';
+            '<tr><th class="cmp-attr"><i class="ph ph-link"></i>Resources</th>' + models.map((m, i) => '<td class="cmp-links" data-col="' + i + '">' + compareLinks(m) + '</td>').join('') + '</tr>';
 
         document.getElementById('compareTitle').textContent = 'Compare · ' + categoryName + ' (' + models.length + ')';
         document.getElementById('compareBody').innerHTML = '<div class="cmp-scroll"><table class="cmp-table"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
@@ -537,7 +543,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <th>${(categoryGroup.category.includes('Survey') || categoryGroup.category.includes('Perspective')) ? 'Paper' : categoryGroup.category.includes('Benchmark') ? 'Benchmark' : 'System'}</th>
                             <th>Year</th>
                             <th>Key Idea</th>
-                            <th class="remove-col"></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -559,11 +564,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         </td>
                         <td><span class="year-badge">${model.year}</span></td>
                         <td class="idea-col">${preferAudit(model.audit_notes, model.idea)}</td>
-                        <td class="remove-col"><button class="remove-btn" title="Remove from list"><i class="ph ph-x"></i></button></td>
                     `;
 
                     tr.querySelector('.expand-btn').addEventListener('click', () => openModal(model));
-                    tr.querySelector('.remove-btn').addEventListener('click', () => tr.remove());
 
                     tbody.appendChild(tr);
                 });

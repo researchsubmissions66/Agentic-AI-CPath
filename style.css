@@ -1599,6 +1599,21 @@ body.light-mode .spiral-quarter.q4 { fill: rgba(234, 88, 12, 0.055); }
 .cmp-dash { color: var(--text-muted); opacity: 0.5; }
 .cmp-links { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 .cmp-attr i { color: var(--accent-1); margin-right: 0.4rem; vertical-align: -1px; }
+.cmp-model { white-space: nowrap; }
+.cmp-model .cmp-mname { margin-right: 0.4rem; }
+.cmp-remove {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 1px 5px;
+    border-radius: 5px;
+    opacity: 0.55;
+    transition: all 0.15s ease;
+}
+.cmp-remove:hover { color: #ef4444; background: rgba(239, 68, 68, 0.12); opacity: 1; }
 
 /* ==========================================================================
    Table-view remove + restore
