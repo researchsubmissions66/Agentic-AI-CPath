@@ -541,10 +541,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const radius = d => d.kind === 'root' ? 15 : d.kind === 'cat' ? 10 : 6;
 
         const sim = d3.forceSimulation()
-            .force('link', d3.forceLink().id(d => d.id).distance(d => d.target.kind === 'model' ? 45 : 120).strength(0.55))
-            .force('charge', d3.forceManyBody().strength(d => d.kind === 'model' ? -70 : -450))
+            .force('link', d3.forceLink().id(d => d.id).distance(d => d.target.kind === 'model' ? 80 : 150).strength(0.45))
+            .force('charge', d3.forceManyBody().strength(d => d.kind === 'model' ? -220 : -650))
             .force('center', d3.forceCenter(width / 2, height / 2))
-            .force('collide', d3.forceCollide().radius(d => radius(d) + 5))
+            .force('collide', d3.forceCollide().radius(d => radius(d) + (d.kind === 'model' ? 34 : 24)).strength(0.9))
             .on('tick', ticked);
 
         let linkSel = linkG.selectAll('line');
