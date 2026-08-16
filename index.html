@@ -49,6 +49,9 @@
                     <!-- Options populated via JS -->
                 </select>
             </div>
+            <button id="facetBtn" class="facet-toggle" aria-expanded="false" title="Filter by metadata">
+                <i class="ph ph-sliders-horizontal"></i> Filters<span id="facetCount" class="facet-count" hidden>0</span>
+            </button>
             <div class="view-toggle">
                 <button id="gridBtn" class="view-btn" aria-label="Grid View"><i class="ph ph-squares-four"></i></button>
                 <button id="tableBtn" class="view-btn active" aria-label="Table View"><i class="ph ph-list-dashes"></i></button>
@@ -56,6 +59,8 @@
                 <button id="treeBtn" class="view-btn" aria-label="Tree View"><i class="ph ph-tree-structure"></i></button>
             </div>
         </div>
+
+        <div id="facetPanel" class="facet-panel" hidden></div>
 
         <div id="modelsContainer" class="models-container">
             <!-- Categories and Cards rendered via JS -->

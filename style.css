@@ -752,6 +752,117 @@ body.light-mode .tag-cyan { color: #0891b2; }
 }
 
 /* ==========================================================================
+   Faceted filter panel (optional / collapsible)
+   ========================================================================== */
+.facet-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    padding: 0 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(12px);
+}
+.facet-toggle:hover { color: var(--text-primary); border-color: var(--accent-1); }
+.facet-toggle.open,
+.facet-toggle.has-active { color: var(--accent-1); border-color: var(--accent-1); }
+.facet-toggle > i { font-size: 1.15rem; }
+.facet-count {
+    background: var(--accent-1);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    min-width: 1.2rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    text-align: center;
+    border-radius: 999px;
+    padding: 0 0.35rem;
+}
+.facet-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    backdrop-filter: blur(12px);
+    padding: 1.1rem 1.25rem 1.35rem;
+    margin: -1.75rem 0 3rem;
+    animation: facetIn 0.18s ease;
+}
+@keyframes facetIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.facet-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+.facet-head i { color: var(--accent-1); margin-right: 0.3rem; }
+.facet-clear {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.78rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.facet-clear:hover { color: var(--accent-1); border-color: var(--accent-1); }
+.facet-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem 1.5rem;
+}
+.facet-group-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 0.55rem;
+}
+.facet-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.facet-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 0.32rem 0.7rem;
+    font-size: 0.82rem;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.facet-chip:hover { border-color: var(--accent-1); color: var(--text-primary); }
+.facet-chip.active {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: var(--accent-1);
+    color: var(--accent-1);
+}
+.facet-chip-n {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    background: rgba(128, 128, 128, 0.18);
+    border-radius: 999px;
+    padding: 0 0.35rem;
+}
+.facet-chip.active .facet-chip-n { background: rgba(99, 102, 241, 0.28); opacity: 1; }
+
+/* ==========================================================================
    Expandable Audit Metadata Styles
    ========================================================================== */
 

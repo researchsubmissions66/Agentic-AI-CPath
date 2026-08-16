@@ -49,6 +49,114 @@ document.addEventListener('DOMContentLoaded', () => {
     if (timelineBtn) timelineBtn.addEventListener('click', () => setView('timeline', timelineBtn));
     if (treeBtn) treeBtn.addEventListener('click', () => setView('tree', treeBtn));
 
+    // ---- Faceted filtering (optional collapsible panel) --------------------
+    const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const FACETS = [
+        { key: 'paradigm', label: 'Training paradigm', icon: 'ph-graduation-cap', tags: m => {
+            const s = ((m.audit_paradigm || '') + ' ' + (m.audit_backbone || '')).toLowerCase(); const o = [];
+            if (/training-free|off-the-shelf/.test(s)) o.push('Training-free');
+            if (/\brl\b|grpo|\bppo\b|dapo|reinforcement/.test(s)) o.push('Reinforcement learning');
+            if (/sft|instruction|fine-tun|finetun/.test(s)) o.push('SFT / instruction-tuned');
+            if (/pretrain/.test(s)) o.push('Pretraining');
+            if (/multi-stage|three-stage|two-stage/.test(s)) o.push('Multi-stage');
+            return o;
+        } },
+        { key: 'capability', label: 'Agent capability', icon: 'ph-lightning', tags: m => {
+            const s = ((m.audit_tools || '') + ' ' + (m.audit_architecture || '') + ' ' + (m.audit_paradigm || '')).toLowerCase(); const o = [];
+            if ((m.audit_tools || '').trim()) o.push('Tool use');
+            if (/knowledge|ontology|retriev|\brag\b|corpus|textbook/.test(s)) o.push('Knowledge / RAG');
+            if (/\bcode\b|python|sandbox|code-generat|codeact/.test(s)) o.push('Code execution');
+            if (/navigat|zoom|magnif|active perception|roi propos|explore/.test(s)) o.push('WSI navigation');
+            if (/multi-agent|multi agent|collaborat|orchestrat|agents|supervisor/.test(s)) o.push('Multi-agent');
+            return o;
+        } },
+        { key: 'task', label: 'Task', icon: 'ph-list-checks', tags: m => {
+            const s = (m.audit_tasks || '').toLowerCase(); const o = [];
+            if (/vqa|question answering|q&a|question/.test(s)) o.push('VQA');
+            if (/report|caption|summar/.test(s)) o.push('Report / captioning');
+            if (/classif|subtyp|grading|staging|prognos/.test(s)) o.push('Classification / grading');
+            if (/segment|detection/.test(s)) o.push('Segmentation / detection');
+            if (/reasoning|explain|interpretab/.test(s)) o.push('Reasoning / explainable');
+            return o;
+        } },
+        { key: 'backbone', label: 'Backbone', icon: 'ph-cpu', tags: m => {
+            const s = (m.audit_backbone || '').toLowerCase(); const o = [];
+            if (/training-free|off-the-shelf|frozen/.test(s)) o.push('Training-free / frozen');
+            if (/gpt/.test(s)) o.push('GPT-based');
+            if (/conch|plip|patho-clip|visual fm|foundation.model/.test(s)) o.push('Pathology encoder');
+            if (/mllm|vlm|multimodal|\blmm\b/.test(s)) o.push('MLLM / VLM');
+            if (/\bllm\b/.test(s)) o.push('LLM');
+            return o;
+        } }
+    ];
+    const activeFacets = {};
+    FACETS.forEach(f => { activeFacets[f.key] = new Set(); });
+
+    const allModels = () => modelData.reduce((a, c) => a.concat(c.models), []);
+    function modelPassesFacets(m) {
+        for (const f of FACETS) {
+            const sel = activeFacets[f.key];
+            if (!sel.size) continue;
+            if (!f.tags(m).some(t => sel.has(t))) return false;
+        }
+        return true;
+    }
+    function updateFacetBadge() {
+        const c = FACETS.reduce((n, f) => n + activeFacets[f.key].size, 0);
+        const badge = document.getElementById('facetCount');
+        if (badge) { badge.textContent = c; badge.hidden = c === 0; }
+        const btn = document.getElementById('facetBtn');
+        if (btn) btn.classList.toggle('has-active', c > 0);
+    }
+    function buildFacetPanel() {
+        const panel = document.getElementById('facetPanel');
+        if (!panel) return;
+        const models = allModels();
+        let html = '<div class="facet-head"><span><i class="ph ph-funnel"></i> Filter by metadata</span>' +
+            '<button type="button" id="facetClear" class="facet-clear">Clear all</button></div><div class="facet-groups">';
+        FACETS.forEach(f => {
+            const counts = {};
+            models.forEach(m => f.tags(m).forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
+            let vals = Object.keys(counts);
+            if (!vals.length) return;
+            if (f.order) vals.sort((a, b) => f.order.indexOf(a) - f.order.indexOf(b));
+            else vals.sort((a, b) => counts[b] - counts[a]);
+            html += '<div class="facet-group"><div class="facet-group-label"><i class="ph ' + f.icon + '"></i> ' + f.label + '</div><div class="facet-chips">';
+            vals.forEach(v => {
+                html += '<button type="button" class="facet-chip" data-key="' + f.key + '" data-val="' + esc(v) + '">' +
+                    esc(v) + ' <span class="facet-chip-n">' + counts[v] + '</span></button>';
+            });
+            html += '</div></div>';
+        });
+        html += '</div>';
+        panel.innerHTML = html;
+        panel.querySelectorAll('.facet-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const k = chip.dataset.key, v = chip.dataset.val;
+                if (activeFacets[k].has(v)) activeFacets[k].delete(v); else activeFacets[k].add(v);
+                chip.classList.toggle('active');
+                updateFacetBadge();
+                handleFilters();
+            });
+        });
+        const clr = document.getElementById('facetClear');
+        if (clr) clr.addEventListener('click', () => {
+            FACETS.forEach(f => activeFacets[f.key].clear());
+            panel.querySelectorAll('.facet-chip.active').forEach(c => c.classList.remove('active'));
+            updateFacetBadge();
+            handleFilters();
+        });
+    }
+    const facetBtn = document.getElementById('facetBtn');
+    if (facetBtn) facetBtn.addEventListener('click', () => {
+        const panel = document.getElementById('facetPanel');
+        if (!panel) return;
+        const open = panel.hidden;
+        panel.hidden = !open;
+        facetBtn.classList.toggle('open', open);
+        facetBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
     // Populate Category Filter
     modelData.forEach(cat => {
         const option = document.createElement('option');
@@ -781,7 +889,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     m.audit_notes, m.paper_title, m.paper_author, m.tag,
                     ...(m.variants || []).map(v => v.name)
                 ].filter(Boolean).join(' ').toLowerCase();
-                return haystack.includes(searchTerm);
+                return haystack.includes(searchTerm) && modelPassesFacets(m);
             });
             return { ...cat, models: matchedModels };
         });
@@ -821,5 +929,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    buildFacetPanel();
     render(modelData);
 });
