@@ -35,17 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridBtn = document.getElementById('gridBtn');
     const tableBtn = document.getElementById('tableBtn');
     const timelineBtn = document.getElementById('timelineBtn');
+    const treeBtn = document.getElementById('treeBtn');
 
-    // View toggle logic
+    // View toggle logic (grid / table / timeline / tree)
     function setView(view, activeBtn) {
         currentView = view;
-        [gridBtn, tableBtn, timelineBtn].forEach(b => b && b.classList.remove('active'));
+        [gridBtn, tableBtn, timelineBtn, treeBtn].forEach(b => b && b.classList.remove('active'));
         if (activeBtn) activeBtn.classList.add('active');
         handleFilters();
     }
     if (gridBtn) gridBtn.addEventListener('click', () => setView('grid', gridBtn));
     if (tableBtn) tableBtn.addEventListener('click', () => setView('table', tableBtn));
     if (timelineBtn) timelineBtn.addEventListener('click', () => setView('timeline', timelineBtn));
+    if (treeBtn) treeBtn.addEventListener('click', () => setView('tree', treeBtn));
 
     // Populate Category Filter
     modelData.forEach(cat => {
@@ -504,9 +506,112 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
     }
 
+    // Tree view: collapsible force-directed graph (root → categories → systems).
+    function renderTree(data) {
+        container.innerHTML = '';
+        const cats = data.filter(c => c.models.length);
+        if (!cats.length) {
+            container.innerHTML = `<div class="empty-state"><i class="ph ph-ghost" style="font-size:3rem;opacity:.5"></i><h3>No entries found</h3><p>Try adjusting your search or filters.</p></div>`;
+            return;
+        }
+        if (typeof d3 === 'undefined') {
+            container.innerHTML = `<div class="empty-state"><i class="ph ph-tree-structure" style="font-size:3rem;opacity:.5"></i><h3>Graph library unavailable</h3><p>The force-directed view needs D3 (loaded from a CDN) — check your connection.</p></div>`;
+            return;
+        }
+        const ROOT_LABEL = 'Agentic CPath';
+        const color = c => (typeof SPIRAL_COLORS !== 'undefined' && SPIRAL_COLORS[c]) || '#6366f1';
+
+        const root = { id: '__root', label: ROOT_LABEL, kind: 'root' };
+        const catData = cats.map(c => ({
+            id: 'c__' + c.category, label: c.category, kind: 'cat', category: c.category, expanded: false,
+            children: c.models.map(m => ({ id: 'm__' + c.category + '__' + m.name, label: m.name, kind: 'model', category: c.category, model: m }))
+        }));
+
+        const wrap = document.createElement('div');
+        wrap.className = 'tree-wrap';
+        wrap.innerHTML = '<div class="tree-hint"><i class="ph ph-hand-pointing"></i> Click a category to expand · drag nodes · scroll to zoom · click a paper for details</div>';
+        container.appendChild(wrap);
+
+        const width = wrap.clientWidth || 900, height = 620;
+        const svg = d3.select(wrap).append('svg').attr('class', 'tree-svg').attr('viewBox', [0, 0, width, height]);
+        const g = svg.append('g');
+        svg.call(d3.zoom().scaleExtent([0.25, 3]).on('zoom', e => g.attr('transform', e.transform)));
+        const linkG = g.append('g'), nodeG = g.append('g');
+
+        const radius = d => d.kind === 'root' ? 15 : d.kind === 'cat' ? 10 : 6;
+
+        const sim = d3.forceSimulation()
+            .force('link', d3.forceLink().id(d => d.id).distance(d => d.target.kind === 'model' ? 45 : 120).strength(0.55))
+            .force('charge', d3.forceManyBody().strength(d => d.kind === 'model' ? -70 : -450))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collide', d3.forceCollide().radius(d => radius(d) + 5))
+            .on('tick', ticked);
+
+        let linkSel = linkG.selectAll('line');
+        let nodeSel = nodeG.selectAll('g');
+
+        function graph() {
+            const N = [root], L = [];
+            catData.forEach(cn => {
+                N.push(cn);
+                L.push({ source: root.id, target: cn.id });
+                if (cn.expanded) cn.children.forEach(mn => { N.push(mn); L.push({ source: cn.id, target: mn.id }); });
+            });
+            return { N, L };
+        }
+
+        function drag() {
+            return d3.drag()
+                .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+                .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+                .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); if (d.kind !== 'root') { d.fx = null; d.fy = null; } });
+        }
+
+        function ticked() {
+            linkSel.attr('x1', d => d.source.x).attr('y1', d => d.source.y).attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+            nodeSel.attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
+        }
+
+        function update() {
+            const { N, L } = graph();
+            linkSel = linkSel.data(L, d => (d.source.id || d.source) + '>' + (d.target.id || d.target));
+            linkSel.exit().remove();
+            linkSel = linkSel.enter().append('line').attr('class', 'tree-link').merge(linkSel);
+
+            nodeSel = nodeSel.data(N, d => d.id);
+            nodeSel.exit().remove();
+            const enter = nodeSel.enter().append('g')
+                .attr('class', d => 'tree-node tn-' + d.kind)
+                .style('color', d => d.kind === 'root' ? 'var(--accent-1)' : color(d.category))
+                .call(drag());
+            enter.append('circle').attr('fill', 'currentColor');
+            enter.append('text').attr('class', 'tree-label').attr('dy', '0.32em')
+                .text(d => d.kind === 'cat' ? d.label + ' (' + d.children.length + ')' : d.label);
+            enter.append('title').text(d => d.label);
+            enter.on('click', (e, d) => {
+                e.stopPropagation();
+                if (d.kind === 'cat') { d.expanded = !d.expanded; update(); }
+                else if (d.kind === 'model') { openModal(d.model); }
+                else { const any = catData.some(c => c.expanded); catData.forEach(c => c.expanded = !any); update(); }
+            });
+            nodeSel = enter.merge(nodeSel);
+            nodeSel.select('circle').attr('r', radius);
+            nodeSel.select('.tree-label').attr('x', d => radius(d) + 5);
+            nodeSel.classed('expanded', d => d.kind === 'cat' && d.expanded);
+
+            sim.nodes(N);
+            sim.force('link').links(L);
+            sim.alpha(0.9).restart();
+        }
+
+        root.fx = width / 2; root.fy = height / 2;
+        update();
+    }
+
     function render(data) {
         container.innerHTML = '';
         if (currentView === 'timeline') { renderTimeline(data); return; }
+        if (currentView === 'tree') { renderTree(data); return; }
         let hasResults = false;
 
         data.forEach(categoryGroup => {
