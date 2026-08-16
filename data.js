@@ -681,6 +681,26 @@ const modelData = [
         "paper_author": "Huang"
       },
       {
+        "name": "CellDX AI Autopilot",
+        "year": 2026,
+        "date": "2026-05-11",
+        "data": "32K cases / 66K H&E WSIs",
+        "idea": "A platform exposing pathology-specialized 'agent skills' to any general-purpose LLM agent so users can curate data, tune, compare and deploy WSI (MIL) classifiers end-to-end through natural language, over a pre-built 66K-WSI feature-extracted dataset",
+        "audit_backbone": "Backbone-agnostic (any general-purpose LLM-based agent runtime)",
+        "audit_architecture": "Agent skills over a Multiple-Instance-Learning training framework (4 classification strategies) + iterative pairwise hyperparameter search (grid / seeded random)",
+        "audit_tools": "Dataset curation, automated hyperparameter tuning, multi-strategy model comparison, human-in-the-loop deployment",
+        "audit_tasks": "Train / evaluate / deploy WSI classifiers via natural language",
+        "audit_paradigm": "Agent-guided AutoML (training-free agent; domain-specialized platform skills)",
+        "audit_domain": "Computational pathology (H&E WSI classification)",
+        "audit_result": "Iterative pairwise HP search cuts tuning cost >30x vs exhaustive; no ML background required",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2605.10362",
+        "bibtex": "@misc{pchelnikov2026celldxaiautopilotagentguided,\n      title={CellDX AI Autopilot: Agent-Guided Training and Deployment of Pathology Classifiers}, \n      author={Alexey Pchelnikov and Aleksei Pchelnikov},\n      year={2026},\n      eprint={2605.10362},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2605.10362}, \n}",
+        "paper_title": "CellDX AI Autopilot: Agent-Guided Training and Deployment of Pathology Classifiers",
+        "paper_author": "Pchelnikov"
+      },
+      {
         "name": "Agentic Discovery",
         "year": 2026,
         "date": "2026-04-29",
