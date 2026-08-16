@@ -1614,6 +1614,8 @@ body.light-mode .spiral-quarter.q4 { fill: rgba(234, 88, 12, 0.055); }
     transition: all 0.15s ease;
 }
 .cmp-remove:hover { color: #ef4444; background: rgba(239, 68, 68, 0.12); opacity: 1; }
+.cmp-attr-in { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+.cmp-attr-in > span { flex: 1; }
 
 /* ==========================================================================
    Table-view remove + restore

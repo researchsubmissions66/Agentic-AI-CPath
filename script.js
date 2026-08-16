@@ -456,7 +456,12 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.querySelector('#compareBody').addEventListener('click', e => {
                 const btn = e.target.closest('.cmp-remove');
                 if (!btn) return;
-                overlay.querySelectorAll('[data-col="' + btn.dataset.col + '"]').forEach(el => el.remove());
+                if (btn.dataset.col !== undefined) {
+                    overlay.querySelectorAll('[data-col="' + btn.dataset.col + '"]').forEach(el => el.remove());
+                } else {
+                    const tr = btn.closest('tr');
+                    if (tr) tr.remove();
+                }
             });
         }
         const rowDefs = [
@@ -486,11 +491,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const head = '<tr><th class="cmp-corner">' + models.length + ' entries</th>' +
             models.map((m, i) => '<th class="cmp-model" data-col="' + i + '"><span class="cmp-mname">' + m.name + (m.year != null ? ' <span class="cmp-year">' + m.year + '</span>' : '') + '</span><button class="cmp-remove" data-col="' + i + '" title="Remove from comparison">&times;</button></th>').join('') + '</tr>';
+        const attrTh = (icon, lbl) => '<th class="cmp-attr"><div class="cmp-attr-in"><span><i class="ph ' + icon + '"></i>' + lbl + '</span><button class="cmp-remove" title="Remove row">&times;</button></div></th>';
         const body = rowDefs.map(([lbl, get, icon]) =>
-            '<tr><th class="cmp-attr"><i class="ph ' + icon + '"></i>' + lbl + '</th>' +
+            '<tr>' + attrTh(icon, lbl) +
             models.map((m, i) => '<td data-col="' + i + '">' + (isMeaningful(get(m)) ? formatField(get(m)) : '<span class="cmp-dash">—</span>') + '</td>').join('') + '</tr>'
         ).join('') +
-            '<tr><th class="cmp-attr"><i class="ph ph-link"></i>Resources</th>' + models.map((m, i) => '<td data-col="' + i + '"><div class="cmp-links">' + compareLinks(m) + '</div></td>').join('') + '</tr>';
+            '<tr>' + attrTh('ph-link', 'Resources') + models.map((m, i) => '<td data-col="' + i + '"><div class="cmp-links">' + compareLinks(m) + '</div></td>').join('') + '</tr>';
 
         document.getElementById('compareTitle').textContent = 'Compare · ' + categoryName + ' (' + models.length + ')';
         document.getElementById('compareBody').innerHTML = '<div class="cmp-scroll"><table class="cmp-table"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>';
