@@ -929,6 +929,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Contribute button: explain how to add a paper via a pull request on data.js.
+    const REPO = 'https://github.com/researchsubmissions66/Agentic-AI-CPath';
+    const contributeBtn = document.getElementById('contributeBtn');
+    if (contributeBtn) {
+        contributeBtn.addEventListener('click', () => {
+            let ov = document.getElementById('contribOverlay');
+            if (!ov) {
+                const example = [
+                    '{',
+                    '  "name": "YourAgent",',
+                    '  "year": 2026,',
+                    '  "date": "2026-01-15",',
+                    '  "idea": "One-sentence key idea of the agent/method",',
+                    '  "paper": "https://arxiv.org/abs/2601.00000",',
+                    '  "github": "https://github.com/...",',
+                    '  "website": "https://...",',
+                    '  "hf": "https://huggingface.co/..."',
+                    '}'
+                ].join('\n');
+                ov = document.createElement('div');
+                ov.id = 'contribOverlay';
+                ov.className = 'contrib-overlay';
+                ov.innerHTML =
+                    '<div class="contrib-panel">' +
+                        '<div class="contrib-head"><h3><i class="ph ph-git-pull-request"></i> Contribute a paper</h3><button class="close-contrib" aria-label="Close">&times;</button></div>' +
+                        '<div class="contrib-body">' +
+                            '<p>The whole catalog is generated from a single file, <code>data.js</code> — each entry is one object inside its category\'s array. Adding a paper is a small edit plus a pull request:</p>' +
+                            '<ol class="contrib-steps">' +
+                                '<li><strong>Open <code>data.js</code></strong> and find the category array your paper belongs to.</li>' +
+                                '<li><strong>Add an entry</strong> in the existing format (example below). Only <code>name</code>, <code>year</code>, <code>idea</code> and <code>paper</code> are required — everything else is optional.</li>' +
+                                '<li><strong>(Optional)</strong> run <code>node sync.js</code> to regenerate <code>README.md</code> and <code>references.bib</code>.</li>' +
+                                '<li><strong>Open a pull request</strong> — done. The site rebuilds itself from <code>data.js</code>.</li>' +
+                            '</ol>' +
+                            '<pre class="contrib-code">' + example.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</pre>' +
+                            '<div class="contrib-actions">' +
+                                '<a href="' + REPO + '/edit/main/data.js" target="_blank" class="action-btn action-btn-primary"><i class="ph ph-pencil-simple"></i> Edit data.js</a>' +
+                                '<a href="' + REPO + '/blob/main/data.js" target="_blank" class="action-btn"><i class="ph ph-file-code"></i> View data.js</a>' +
+                                '<a href="' + REPO + '/pulls" target="_blank" class="action-btn"><i class="ph ph-git-pull-request"></i> Pull requests</a>' +
+                            '</div>' +
+                            '<p class="contrib-note"><i class="ph ph-info"></i> New to GitHub? The <strong>Edit data.js</strong> button opens GitHub\'s in-browser editor and will offer to fork the repo and open the pull request for you automatically.</p>' +
+                        '</div>' +
+                    '</div>';
+                document.body.appendChild(ov);
+                const close = () => { ov.classList.remove('open'); document.body.style.overflow = ''; };
+                ov.addEventListener('click', e => { if (e.target === ov) close(); });
+                ov.querySelector('.close-contrib').addEventListener('click', close);
+                document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+            }
+            ov.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
     buildFacetPanel();
     render(modelData);
 });

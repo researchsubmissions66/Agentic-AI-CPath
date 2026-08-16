@@ -863,6 +863,68 @@ body.light-mode .tag-cyan { color: #0891b2; }
 .facet-chip.active .facet-chip-n { background: rgba(99, 102, 241, 0.28); opacity: 1; }
 
 /* ==========================================================================
+   Contribute button + overlay
+   ========================================================================== */
+.action-btn-primary { background: var(--accent-1); color: #fff; border-color: var(--accent-1); }
+.action-btn-primary:hover { background: var(--accent-3); border-color: var(--accent-3); color: #fff; }
+
+.contrib-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 4vw;
+}
+.contrib-overlay.open { display: flex; }
+.contrib-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    width: 640px;
+    max-width: 100%;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+.contrib-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid var(--card-border);
+}
+.contrib-head h3 { margin: 0; font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+.contrib-head h3 i { color: var(--accent-1); }
+.close-contrib { background: none; border: none; color: var(--text-muted); font-size: 1.8rem; line-height: 1; cursor: pointer; }
+.close-contrib:hover { color: var(--text-primary); }
+.contrib-body { padding: 1.2rem 1.4rem; overflow-y: auto; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; }
+.contrib-body code { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 5px; padding: 0.05rem 0.35rem; font-family: monospace; font-size: 0.85em; color: var(--accent-1); }
+.contrib-steps { margin: 0.8rem 0 1rem 1.1rem; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.contrib-steps strong { color: var(--text-primary); }
+.contrib-code {
+    background: var(--bg-primary);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    overflow-x: auto;
+    margin: 0.5rem 0 1.1rem;
+    white-space: pre;
+    line-height: 1.5;
+}
+.contrib-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+.contrib-note { font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 0.4rem; }
+.contrib-note i { color: var(--accent-1); margin-top: 0.15rem; flex: none; }
+
+/* ==========================================================================
    Expandable Audit Metadata Styles
    ========================================================================== */
 
