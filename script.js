@@ -543,6 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <th>${(categoryGroup.category.includes('Survey') || categoryGroup.category.includes('Perspective')) ? 'Paper' : categoryGroup.category.includes('Benchmark') ? 'Benchmark' : 'System'}</th>
                             <th>Year</th>
                             <th>Key Idea</th>
+                            <th>Resources</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -554,6 +555,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const tr = document.createElement('tr');
                     tr.className = 'main-row';
                     
+                    let linksHTML = '';
+                    if (model.paper) linksHTML += `<a href="${model.paper}" target="_blank" class="icon-link paper" title="Paper"><i class="ph ph-file-text"></i></a>`;
+                    if (model.github) linksHTML += `<a href="${model.github}" target="_blank" class="icon-link github" title="Code"><i class="ph ph-github-logo"></i></a>`;
+                    if (model.hf) linksHTML += `<a href="${model.hf}" target="_blank" class="icon-link hf" title="Model weights"><i class="ph ph-cube"></i></a>`;
+                    if (model.dataset) linksHTML += `<a href="${model.dataset}" target="_blank" class="icon-link dataset" title="Dataset"><i class="ph ph-database"></i></a>`;
+                    if (model.website) linksHTML += `<a href="${model.website}" target="_blank" class="icon-link website" title="Website"><i class="ph ph-globe"></i></a>`;
+
                     tr.innerHTML = `
                         <td class="expand-col"><button class="expand-btn" title="View Detailed Metadata"><i class="ph ph-arrows-out-simple"></i></button></td>
                         <td>
@@ -564,6 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </td>
                         <td><span class="year-badge">${model.year}</span></td>
                         <td class="idea-col">${preferAudit(model.audit_notes, model.idea)}</td>
+                        <td><div class="links-col">${linksHTML}${variantChips(model)}</div></td>
                     `;
 
                     tr.querySelector('.expand-btn').addEventListener('click', () => openModal(model));
