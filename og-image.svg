@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="630" fill="none" stroke="#e5e7eb" stroke-width="2"/>
+
+  <text x="80" y="148" font-family="'DejaVu Sans', Inter, sans-serif" font-size="23" fill="#6366f1" font-weight="700" letter-spacing="5">COMPUTATIONAL PATHOLOGY · CURATED CATALOG</text>
+
+  <text x="76" y="270" font-family="'DejaVu Sans', Inter, sans-serif" font-size="78" font-weight="700" fill="#111827">Agentic AI in</text>
+  <text x="76" y="362" font-family="'DejaVu Sans', Inter, sans-serif" font-size="78" font-weight="700" fill="#111827">Computational Pathology</text>
+
+  <rect x="80" y="396" width="132" height="7" rx="3.5" fill="url(#rule)"/>
+
+  <text x="80" y="458" font-family="'DejaVu Sans', Inter, sans-serif" font-size="29" fill="#4b5563">A curated catalog of agentic AI systems for whole-slide pathology.</text>
+
+  <text x="80" y="504" font-family="'DejaVu Sans', Inter, sans-serif" font-size="23" fill="#9ca3af">43 systems · 10 categories · reasoning · multi-agent · tool-use · copilots</text>
+
+  <text x="1120" y="586" font-family="'DejaVu Sans', Inter, sans-serif" font-size="21" fill="#6366f1" font-weight="700" text-anchor="end">researchsubmissions66.github.io/Agentic-AI-CPath</text>
+</svg>

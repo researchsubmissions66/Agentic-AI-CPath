@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://researchsubmissions66.github.io/Agentic-AI-CPath/sitemap.xml
