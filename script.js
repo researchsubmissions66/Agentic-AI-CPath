@@ -35,18 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridBtn = document.getElementById('gridBtn');
     const tableBtn = document.getElementById('tableBtn');
     const timelineBtn = document.getElementById('timelineBtn');
+    const swimlaneBtn = document.getElementById('swimlaneBtn');
     const treeBtn = document.getElementById('treeBtn');
 
-    // View toggle logic (grid / table / timeline / tree)
+    // View toggle logic (grid / table / timeline / swimlane / tree)
     function setView(view, activeBtn) {
         currentView = view;
-        [gridBtn, tableBtn, timelineBtn, treeBtn].forEach(b => b && b.classList.remove('active'));
+        [gridBtn, tableBtn, timelineBtn, swimlaneBtn, treeBtn].forEach(b => b && b.classList.remove('active'));
         if (activeBtn) activeBtn.classList.add('active');
         handleFilters();
     }
     if (gridBtn) gridBtn.addEventListener('click', () => setView('grid', gridBtn));
     if (tableBtn) tableBtn.addEventListener('click', () => setView('table', tableBtn));
     if (timelineBtn) timelineBtn.addEventListener('click', () => setView('timeline', timelineBtn));
+    if (swimlaneBtn) swimlaneBtn.addEventListener('click', () => setView('swimlane', swimlaneBtn));
     if (treeBtn) treeBtn.addEventListener('click', () => setView('tree', treeBtn));
 
     // ---- Faceted filtering (optional collapsible panel) --------------------
@@ -731,9 +733,112 @@ document.addEventListener('DOMContentLoaded', () => {
         update();
     }
 
+    // Swimlane timeline: one horizontal track per category, dots placed by date,
+    // labels staggered above/below to avoid overlap, dashed year gridlines.
+    function renderSwimlane(data) {
+        const items = [];
+        data.forEach(cat => cat.models.forEach(m => {
+            const iso = m.date || (m.year ? m.year + '-01-01' : '');
+            const parts = iso.split('-').map(Number);
+            const y = parts[0], mo = parts[1] || 1, d = parts[2] || 1;
+            if (!y) return;
+            items.push({ m, category: cat.category, frac: y + ((mo - 1) * 30 + (d - 1)) / 365, iso });
+        }));
+        container.innerHTML = '';
+        if (!items.length) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="ph ph-ghost" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <h3>No models found</h3><p>Try adjusting your search or filters.</p>
+                </div>`;
+            return;
+        }
+
+        const lanes = Object.keys(SPIRAL_COLORS).filter(c => items.some(it => it.category === c));
+        data.forEach(cat => { if (cat.models.length && !lanes.includes(cat.category) && items.some(it => it.category === cat.category)) lanes.push(cat.category); });
+        const minYear = Math.floor(Math.min(...items.map(i => i.frac)));
+        const maxYear = Math.floor(Math.max(...items.map(i => i.frac)));
+        const domainMax = maxYear + 1;
+        const span = domainMax - minYear;
+
+        const padX = 28, yearW = 340, axisH = 34, laneH = 128;
+        const plotW = padX * 2 + span * yearW;
+        const totalH = axisH + lanes.length * laneH;
+        const xOf = frac => padX + (frac - minYear) * yearW;
+        const laneY = i => axisH + i * laneH + laneH / 2;
+
+        let svg = `<svg class="swim-svg" width="${plotW}" height="${totalH}" viewBox="0 0 ${plotW} ${totalH}">`;
+        // Year gridlines + labels.
+        for (let yr = minYear; yr <= domainMax; yr++) {
+            const x = xOf(yr);
+            svg += `<line class="swim-grid" x1="${x}" y1="${axisH - 8}" x2="${x}" y2="${totalH}" />`;
+            if (yr <= maxYear) svg += `<text class="swim-year" x="${x + 8}" y="${axisH - 14}">${yr}</text>`;
+        }
+        // Lane tracks + faint separators.
+        lanes.forEach((cat, i) => {
+            const y = laneY(i);
+            if (i) svg += `<line class="swim-sep" x1="0" y1="${axisH + i * laneH}" x2="${plotW}" y2="${axisH + i * laneH}" />`;
+            svg += `<line class="swim-track" x1="${padX}" y1="${y}" x2="${plotW - padX}" y2="${y}" stroke="${spiralColor(cat)}" />`;
+        });
+
+        // Nodes with per-lane label packing (alternating above/below, multi-level).
+        const flat = [];
+        const baseGap = 14, levelH = 16, gap = 9;
+        lanes.forEach((cat, i) => {
+            const y = laneY(i);
+            const cclr = spiralColor(cat);
+            const laneItems = items.filter(it => it.category === cat).sort((a, b) => a.frac - b.frac);
+            const aboveRight = [], belowRight = [];
+            laneItems.forEach((it, k) => {
+                const x = xOf(it.frac);
+                const name = it.m.name;
+                const labelLeft = x + 7;
+                const labelRight = labelLeft + name.length * 6.4 + 8;
+                const side = (k % 2 === 0) ? 'above' : 'below';
+                const arr = side === 'above' ? aboveRight : belowRight;
+                let level = 0;
+                while (level < arr.length && arr[level] + gap > labelLeft) level++;
+                arr[level] = labelRight;
+                const off = baseGap + level * levelH;
+                const ly = side === 'above' ? y - off : y + off;
+                const idx = flat.length;
+                svg += `<g class="swim-item" data-idx="${idx}">`
+                    + `<line class="swim-leader" x1="${x}" y1="${y}" x2="${x}" y2="${side === 'above' ? ly + 3 : ly - 3}" stroke="${cclr}"/>`
+                    + `<circle class="swim-dot" cx="${x}" cy="${y}" r="5" fill="${cclr}"/>`
+                    + `<text class="swim-label" x="${labelLeft}" y="${ly}" dominant-baseline="${side === 'above' ? 'auto' : 'hanging'}">${escapeHtml(name)}</text>`
+                    + `</g>`;
+                flat.push(it);
+            });
+        });
+        svg += `</svg>`;
+
+        const laneLabels = lanes.map((cat, i) =>
+            `<div class="swim-lane-label" style="height:${laneH}px">`
+            + `<span class="swim-lane-dot" style="background:${spiralColor(cat)}"></span>`
+            + `<span class="swim-lane-name">${cat}</span>`
+            + `<span class="swim-lane-count">${items.filter(it => it.category === cat).length}</span>`
+            + `</div>`).join('');
+
+        container.innerHTML = `
+          <div class="swim-view">
+            <div class="swim-hint"><i class="ph ph-hand-pointing"></i> Scroll horizontally · each dot is a paper (color = category) · click a dot for details</div>
+            <div class="swim-body">
+              <div class="swim-lanes"><div class="swim-lane-head" style="height:${axisH}px"></div>${laneLabels}</div>
+              <div class="swim-scroll">${svg}</div>
+            </div>
+          </div>`;
+
+        const svgEl = container.querySelector('.swim-svg');
+        if (svgEl) svgEl.addEventListener('click', e => {
+            const g = e.target.closest('.swim-item');
+            if (g) openModal(flat[+g.dataset.idx].m);
+        });
+    }
+
     function render(data) {
         container.innerHTML = '';
         if (currentView === 'timeline') { renderTimeline(data); return; }
+        if (currentView === 'swimlane') { renderSwimlane(data); return; }
         if (currentView === 'tree') { renderTree(data); return; }
         let hasResults = false;
 

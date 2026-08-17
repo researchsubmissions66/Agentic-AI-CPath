@@ -1447,6 +1447,70 @@ th.expand-col, td.expand-col {
 }
 
 /* ==========================================================================
+   Swimlane Timeline View
+   ========================================================================== */
+.swim-view { width: 100%; }
+.swim-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+}
+.swim-hint i { font-size: 1rem; }
+.swim-body {
+    display: flex;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--card-bg);
+}
+.swim-lanes {
+    flex: 0 0 auto;
+    width: 200px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--card-border);
+}
+.swim-lane-head { border-bottom: 1px solid var(--card-border); }
+.swim-lane-label {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.85rem;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 0.82rem;
+    line-height: 1.25;
+    color: var(--text-secondary);
+}
+.swim-lane-label:last-child { border-bottom: none; }
+.swim-lane-dot { flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; }
+.swim-lane-name { flex: 1; font-weight: 600; }
+.swim-lane-count {
+    flex: 0 0 auto;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 0.05rem 0.45rem;
+}
+.swim-scroll { flex: 1; min-width: 0; overflow-x: auto; }
+.swim-svg { display: block; }
+.swim-grid { stroke: var(--card-border); stroke-width: 1; stroke-dasharray: 4 6; }
+.swim-year { fill: var(--text-muted); font-size: 12px; font-weight: 700; font-family: var(--font-sans); }
+.swim-sep { stroke: var(--card-border); stroke-width: 1; opacity: 0.5; }
+.swim-track { stroke-width: 3; opacity: 0.4; stroke-linecap: round; }
+.swim-leader { stroke-width: 1; opacity: 0.35; }
+.swim-label { fill: var(--text-secondary); font-size: 11px; font-family: var(--font-sans); pointer-events: none; }
+.swim-dot { stroke: var(--card-bg); stroke-width: 1.5; cursor: pointer; transition: r 0.12s ease; }
+.swim-item { cursor: pointer; }
+.swim-item:hover .swim-dot { r: 7; }
+.swim-item:hover .swim-label { fill: var(--text-primary); font-weight: 700; }
+.swim-item:hover .swim-leader { opacity: 0.85; stroke-width: 1.5; }
+
+/* ==========================================================================
    Timeline View — Spiral (one revolution per year)
    ========================================================================== */
 .spiral-wrap {
