@@ -761,62 +761,69 @@ document.addEventListener('DOMContentLoaded', () => {
         const domainMax = maxYear + 1;
         const span = domainMax - minYear;
 
-        const padX = 28, yearW = 340, axisH = 34, laneH = 128;
+        const padX = 28, yearW = 340, axisH = 34;
+        const baseGap = 13, levelH = 15, gap = 9, textH = 11, sidePad = 10, minHalf = 22;
         const plotW = padX * 2 + span * yearW;
-        const totalH = axisH + lanes.length * laneH;
         const xOf = frac => padX + (frac - minYear) * yearW;
-        const laneY = i => axisH + i * laneH + laneH / 2;
 
-        let svg = `<svg class="swim-svg" width="${plotW}" height="${totalH}" viewBox="0 0 ${plotW} ${totalH}">`;
-        // Year gridlines + labels.
-        for (let yr = minYear; yr <= domainMax; yr++) {
-            const x = xOf(yr);
-            svg += `<line class="swim-grid" x1="${x}" y1="${axisH - 8}" x2="${x}" y2="${totalH}" />`;
-            if (yr <= maxYear) svg += `<text class="swim-year" x="${x + 8}" y="${axisH - 14}">${yr}</text>`;
-        }
-        // Lane tracks + faint separators.
-        lanes.forEach((cat, i) => {
-            const y = laneY(i);
-            if (i) svg += `<line class="swim-sep" x1="0" y1="${axisH + i * laneH}" x2="${plotW}" y2="${axisH + i * laneH}" />`;
-            svg += `<line class="swim-track" x1="${padX}" y1="${y}" x2="${plotW - padX}" y2="${y}" stroke="${spiralColor(cat)}" />`;
-        });
-
-        // Nodes with per-lane label packing (alternating above/below, multi-level).
-        const flat = [];
-        const baseGap = 14, levelH = 16, gap = 9;
-        lanes.forEach((cat, i) => {
-            const y = laneY(i);
-            const cclr = spiralColor(cat);
+        // Layout pass: pack labels per lane, then size each lane to exactly the
+        // vertical space its own labels use (so sparse lanes stay compact).
+        const laneLayouts = lanes.map(cat => {
             const laneItems = items.filter(it => it.category === cat).sort((a, b) => a.frac - b.frac);
             const aboveRight = [], belowRight = [];
-            laneItems.forEach((it, k) => {
+            const placed = laneItems.map((it, k) => {
                 const x = xOf(it.frac);
-                const name = it.m.name;
                 const labelLeft = x + 7;
-                const labelRight = labelLeft + name.length * 6.4 + 8;
+                const labelRight = labelLeft + it.m.name.length * 6.4 + 8;
                 const side = (k % 2 === 0) ? 'above' : 'below';
                 const arr = side === 'above' ? aboveRight : belowRight;
                 let level = 0;
                 while (level < arr.length && arr[level] + gap > labelLeft) level++;
                 arr[level] = labelRight;
-                const off = baseGap + level * levelH;
-                const ly = side === 'above' ? y - off : y + off;
+                return { it, x, labelLeft, side, level };
+            });
+            const aboveH = Math.max(minHalf, (aboveRight.length ? baseGap + (aboveRight.length - 1) * levelH + textH : 0) + sidePad);
+            const belowH = Math.max(minHalf, (belowRight.length ? baseGap + (belowRight.length - 1) * levelH + textH : 0) + sidePad);
+            return { cat, placed, aboveH, belowH, height: aboveH + belowH, count: laneItems.length };
+        });
+
+        let runningY = axisH;
+        laneLayouts.forEach(L => { L.top = runningY; L.trackY = runningY + L.aboveH; runningY += L.height; });
+        const totalH = runningY;
+
+        let svg = `<svg class="swim-svg" width="${plotW}" height="${totalH}" viewBox="0 0 ${plotW} ${totalH}">`;
+        for (let yr = minYear; yr <= domainMax; yr++) {
+            const x = xOf(yr);
+            svg += `<line class="swim-grid" x1="${x}" y1="${axisH - 8}" x2="${x}" y2="${totalH}" />`;
+            if (yr <= maxYear) svg += `<text class="swim-year" x="${x + 8}" y="${axisH - 14}">${yr}</text>`;
+        }
+        laneLayouts.forEach((L, i) => {
+            if (i) svg += `<line class="swim-sep" x1="0" y1="${L.top}" x2="${plotW}" y2="${L.top}" />`;
+            svg += `<line class="swim-track" x1="${padX}" y1="${L.trackY}" x2="${plotW - padX}" y2="${L.trackY}" stroke="${spiralColor(L.cat)}" />`;
+        });
+
+        const flat = [];
+        laneLayouts.forEach(L => {
+            const cclr = spiralColor(L.cat);
+            L.placed.forEach(p => {
+                const off = baseGap + p.level * levelH;
+                const ly = p.side === 'above' ? L.trackY - off : L.trackY + off;
                 const idx = flat.length;
                 svg += `<g class="swim-item" data-idx="${idx}">`
-                    + `<line class="swim-leader" x1="${x}" y1="${y}" x2="${x}" y2="${side === 'above' ? ly + 3 : ly - 3}" stroke="${cclr}"/>`
-                    + `<circle class="swim-dot" cx="${x}" cy="${y}" r="5" fill="${cclr}"/>`
-                    + `<text class="swim-label" x="${labelLeft}" y="${ly}" dominant-baseline="${side === 'above' ? 'auto' : 'hanging'}">${escapeHtml(name)}</text>`
+                    + `<line class="swim-leader" x1="${p.x}" y1="${L.trackY}" x2="${p.x}" y2="${p.side === 'above' ? ly + 3 : ly - 3}" stroke="${cclr}"/>`
+                    + `<circle class="swim-dot" cx="${p.x}" cy="${L.trackY}" r="5" fill="${cclr}"/>`
+                    + `<text class="swim-label" x="${p.labelLeft}" y="${ly}" dominant-baseline="${p.side === 'above' ? 'auto' : 'hanging'}">${escapeHtml(p.it.m.name)}</text>`
                     + `</g>`;
-                flat.push(it);
+                flat.push(p.it);
             });
         });
         svg += `</svg>`;
 
-        const laneLabels = lanes.map((cat, i) =>
-            `<div class="swim-lane-label" style="height:${laneH}px">`
-            + `<span class="swim-lane-dot" style="background:${spiralColor(cat)}"></span>`
-            + `<span class="swim-lane-name">${cat}</span>`
-            + `<span class="swim-lane-count">${items.filter(it => it.category === cat).length}</span>`
+        const laneLabels = laneLayouts.map(L =>
+            `<div class="swim-lane-label" style="height:${L.height}px">`
+            + `<span class="swim-lane-dot" style="background:${spiralColor(L.cat)}"></span>`
+            + `<span class="swim-lane-name">${L.cat}</span>`
+            + `<span class="swim-lane-count">${L.count}</span>`
             + `</div>`).join('');
 
         container.innerHTML = `
