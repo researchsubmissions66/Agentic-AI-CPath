@@ -1501,9 +1501,8 @@ th.expand-col, td.expand-col {
 .swim-grid { stroke: var(--card-border); stroke-width: 1; stroke-dasharray: 4 6; }
 .swim-year { fill: var(--text-muted); font-size: 12px; font-weight: 700; font-family: var(--font-sans); }
 .swim-sep { stroke: var(--card-border); stroke-width: 1; opacity: 0.5; }
-.swim-laneband { pointer-events: none; }
 .swim-track { stroke-width: 3; opacity: 0.55; stroke-linecap: round; }
-.swim-leader { stroke-width: 1; opacity: 0.5; }
+.swim-leader { fill: none; stroke-width: 1; opacity: 0.5; }
 .swim-label { fill: var(--text-secondary); font-size: 11px; font-family: var(--font-sans); pointer-events: none; }
 .swim-dot { stroke: var(--card-bg); stroke-width: 1.5; cursor: pointer; transition: r 0.12s ease; }
 .swim-item { cursor: pointer; }

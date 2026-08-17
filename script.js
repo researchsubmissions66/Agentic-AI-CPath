@@ -762,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const span = domainMax - minYear;
 
         const padX = 28, axisH = 34;
-        const baseGap = 13, levelH = 15, gap = 9, textH = 11, sidePad = 12, minHalf = 24;
+        const baseGap = 15, levelH = 17, gap = 8, textH = 11, sidePad = 12, minHalf = 24, maxRows = 3, stub = 6;
         // Density-weighted year bands: a sparse year (e.g. the first) gets a narrow
         // band; busy years get proportionally more room, so dots stop bunching.
         const yearCount = {};
@@ -772,38 +772,48 @@ document.addEventListener('DOMContentLoaded', () => {
         let acc = padX;
         for (let y = minYear; y <= maxYear; y++) { bandW[y] = Math.max(minBand, (yearCount[y] || 0) * perPaper); yearX[y] = acc; acc += bandW[y]; }
         yearX[domainMax] = acc;
-        const plotW = acc + padX;
         const xOf = frac => { const y = Math.min(maxYear, Math.max(minYear, Math.floor(frac))); const f = Math.min(1, Math.max(0, frac - y)); return yearX[y] + f * bandW[y]; };
-        const hexRgba = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
 
         // Layout pass: pack labels per lane, then size each lane to exactly the
         // vertical space its own labels use (so sparse lanes stay compact).
+        const minNodeGap = 34;
+        let maxRight = 0;
         const laneLayouts = lanes.map(cat => {
             const laneItems = items.filter(it => it.category === cat).sort((a, b) => a.frac - b.frac);
-            const aboveRight = [], belowRight = [];
+            const rows = { above: [], below: [] };
+            const fits = (arr, x0, x1) => !arr.some(iv => x0 < iv[1] + gap && x1 + gap > iv[0]);
+            let prevX = -Infinity;
             const placed = laneItems.map((it, k) => {
-                const x = xOf(it.frac);
-                const labelLeft = x + 7;
-                const labelRight = labelLeft + it.m.name.length * 6.4 + 8;
+                // Spread clustered same-lane dots so labels have room (like the figure).
+                let nodeX = xOf(it.frac);
+                if (nodeX < prevX + minNodeGap) nodeX = prevX + minNodeGap;
+                prevX = nodeX;
+                const w = it.m.name.length * 6.4 + 4;
+                // Alternate top/bottom every node and left/right every pair, so
+                // labels fan into four quadrants (bent connectors make the space).
                 const side = (k % 2 === 0) ? 'above' : 'below';
-                const arr = side === 'above' ? aboveRight : belowRight;
-                let level = 0;
-                while (level < arr.length && arr[level] + gap > labelLeft) level++;
-                arr[level] = labelRight;
-                return { it, x, labelLeft, side, level };
+                const dir = (Math.floor(k / 2) % 2 === 0) ? 'right' : 'left';
+                const x0 = dir === 'right' ? nodeX : nodeX - stub - w;
+                const x1 = dir === 'right' ? nodeX + stub + w : nodeX;
+                const rr = rows[side];
+                let row = 0;
+                while (row < maxRows && rr[row] && !fits(rr[row], x0, x1)) row++;
+                if (row >= maxRows) row = maxRows - 1;
+                (rr[row] || (rr[row] = [])).push([x0, x1]);
+                if (x1 > maxRight) maxRight = x1;
+                return { it, nodeX, side, dir, row };
             });
-            const aboveH = Math.max(minHalf, (aboveRight.length ? baseGap + (aboveRight.length - 1) * levelH + textH : 0) + sidePad);
-            const belowH = Math.max(minHalf, (belowRight.length ? baseGap + (belowRight.length - 1) * levelH + textH : 0) + sidePad);
+            const aboveH = Math.max(minHalf, (rows.above.length ? baseGap + (rows.above.length - 1) * levelH + textH : 0) + sidePad);
+            const belowH = Math.max(minHalf, (rows.below.length ? baseGap + (rows.below.length - 1) * levelH + textH : 0) + sidePad);
             return { cat, placed, aboveH, belowH, height: aboveH + belowH, count: laneItems.length };
         });
+        const plotW = Math.max(acc, maxRight) + padX;
 
         let runningY = axisH;
         laneLayouts.forEach(L => { L.top = runningY; L.trackY = runningY + L.aboveH; runningY += L.height; });
         const totalH = runningY;
 
         let svg = `<svg class="swim-svg" width="${plotW}" height="${totalH}" viewBox="0 0 ${plotW} ${totalH}">`;
-        // Faint per-lane colour wash so each dot/label clearly belongs to its row.
-        laneLayouts.forEach(L => { svg += `<rect class="swim-laneband" x="0" y="${L.top}" width="${plotW}" height="${L.height}" fill="${hexRgba(spiralColor(L.cat), 0.07)}"/>`; });
         for (let yr = minYear; yr <= domainMax; yr++) {
             const x = xOf(yr);
             svg += `<line class="swim-grid" x1="${x}" y1="${axisH - 8}" x2="${x}" y2="${totalH}" />`;
@@ -818,13 +828,15 @@ document.addEventListener('DOMContentLoaded', () => {
         laneLayouts.forEach(L => {
             const cclr = spiralColor(L.cat);
             L.placed.forEach(p => {
-                const off = baseGap + p.level * levelH;
-                const ly = p.side === 'above' ? L.trackY - off : L.trackY + off;
+                const off = baseGap + p.row * levelH;
+                const cy = p.side === 'above' ? L.trackY - off : L.trackY + off;
+                const textY = p.side === 'above' ? cy - 4 : cy + textH;
+                const lx = p.dir === 'right' ? p.nodeX + stub : p.nodeX - stub;
                 const idx = flat.length;
                 svg += `<g class="swim-item" data-idx="${idx}">`
-                    + `<line class="swim-leader" x1="${p.x}" y1="${L.trackY}" x2="${p.x}" y2="${p.side === 'above' ? ly + 3 : ly - 3}" stroke="${cclr}"/>`
-                    + `<circle class="swim-dot" cx="${p.x}" cy="${L.trackY}" r="5" fill="${cclr}"/>`
-                    + `<text class="swim-label" x="${p.labelLeft}" y="${ly}" dominant-baseline="${p.side === 'above' ? 'auto' : 'hanging'}">${escapeHtml(p.it.m.name)}</text>`
+                    + `<polyline class="swim-leader" points="${p.nodeX},${L.trackY} ${p.nodeX},${cy} ${lx},${cy}" stroke="${cclr}"/>`
+                    + `<circle class="swim-dot" cx="${p.nodeX}" cy="${L.trackY}" r="5" fill="${cclr}"/>`
+                    + `<text class="swim-label" x="${p.dir === 'right' ? lx + 1 : lx - 1}" y="${textY}" text-anchor="${p.dir === 'right' ? 'start' : 'end'}">${escapeHtml(p.it.m.name)}</text>`
                     + `</g>`;
                 flat.push(p.it);
             });
@@ -832,7 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
         svg += `</svg>`;
 
         const laneLabels = laneLayouts.map(L =>
-            `<div class="swim-lane-label" style="height:${L.height}px;background:${hexRgba(spiralColor(L.cat), 0.12)}">`
+            `<div class="swim-lane-label" style="height:${L.height}px">`
             + `<span class="swim-lane-dot" style="background:${spiralColor(L.cat)}"></span>`
             + `<span class="swim-lane-name">${L.cat}</span>`
             + `<span class="swim-lane-count">${L.count}</span>`
