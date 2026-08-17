@@ -761,10 +761,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const domainMax = maxYear + 1;
         const span = domainMax - minYear;
 
-        const padX = 28, yearW = 340, axisH = 34;
-        const baseGap = 13, levelH = 15, gap = 9, textH = 11, sidePad = 10, minHalf = 22;
-        const plotW = padX * 2 + span * yearW;
-        const xOf = frac => padX + (frac - minYear) * yearW;
+        const padX = 28, axisH = 34;
+        const baseGap = 13, levelH = 15, gap = 9, textH = 11, sidePad = 12, minHalf = 24;
+        // Density-weighted year bands: a sparse year (e.g. the first) gets a narrow
+        // band; busy years get proportionally more room, so dots stop bunching.
+        const yearCount = {};
+        items.forEach(it => { const y = Math.floor(it.frac); yearCount[y] = (yearCount[y] || 0) + 1; });
+        const minBand = 120, perPaper = 26;
+        const bandW = {}, yearX = {};
+        let acc = padX;
+        for (let y = minYear; y <= maxYear; y++) { bandW[y] = Math.max(minBand, (yearCount[y] || 0) * perPaper); yearX[y] = acc; acc += bandW[y]; }
+        yearX[domainMax] = acc;
+        const plotW = acc + padX;
+        const xOf = frac => { const y = Math.min(maxYear, Math.max(minYear, Math.floor(frac))); const f = Math.min(1, Math.max(0, frac - y)); return yearX[y] + f * bandW[y]; };
+        const hexRgba = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
 
         // Layout pass: pack labels per lane, then size each lane to exactly the
         // vertical space its own labels use (so sparse lanes stay compact).
@@ -792,6 +802,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalH = runningY;
 
         let svg = `<svg class="swim-svg" width="${plotW}" height="${totalH}" viewBox="0 0 ${plotW} ${totalH}">`;
+        // Faint per-lane colour wash so each dot/label clearly belongs to its row.
+        laneLayouts.forEach(L => { svg += `<rect class="swim-laneband" x="0" y="${L.top}" width="${plotW}" height="${L.height}" fill="${hexRgba(spiralColor(L.cat), 0.07)}"/>`; });
         for (let yr = minYear; yr <= domainMax; yr++) {
             const x = xOf(yr);
             svg += `<line class="swim-grid" x1="${x}" y1="${axisH - 8}" x2="${x}" y2="${totalH}" />`;
@@ -820,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
         svg += `</svg>`;
 
         const laneLabels = laneLayouts.map(L =>
-            `<div class="swim-lane-label" style="height:${L.height}px">`
+            `<div class="swim-lane-label" style="height:${L.height}px;background:${hexRgba(spiralColor(L.cat), 0.12)}">`
             + `<span class="swim-lane-dot" style="background:${spiralColor(L.cat)}"></span>`
             + `<span class="swim-lane-name">${L.cat}</span>`
             + `<span class="swim-lane-count">${L.count}</span>`
