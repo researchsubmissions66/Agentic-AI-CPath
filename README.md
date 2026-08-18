@@ -19,6 +19,7 @@ A comprehensive, curated summary of agentic AI systems, LLM agents, and copilots
 
 | System | Year | Backbone / Data | Key Idea | Resources |
 |---|---|---|---|---|
+| **PathMem** | 2026 | Memory framework for pathology MLLMs | Memory-centric multimodal framework for pathology MLLMs inspired by pathologists' hierarchical memory: it stores structured knowledge (taxonomy, grading criteria, evidence) as long-term memory and a Memory Transformer models the long-term->working-memory transition via multimodal activation and context-aware grounding, improving WSI report generation and open-ended diagnosis | [Paper](https://arxiv.org/abs/2603.09943) |
 | **Patho-R1** | 2025 | RL reasoner (GRPO/DAPO) | Multimodal RL-based pathology expert reasoner trained in three stages — continued pretraining (3.5M image-text pairs) → CoT supervised fine-tuning (500K) → RL with GRPO and DAPO; paired with PathoCLIP for zero-shot classification, cross-modal retrieval, VQA and MCQ | [Paper](https://arxiv.org/abs/2505.11404) • [Code](https://github.com/Wenchuan-Zhang/Patho-R1) • [Patho-CLIP-B](https://huggingface.co/WenchuanZhang/Patho-CLIP-B) • [Patho-CLIP-L](https://huggingface.co/WenchuanZhang/Patho-CLIP-L) • [Patho-R1-3B](https://huggingface.co/WenchuanZhang/Patho-R1-3B) • [Patho-R1-7B](https://huggingface.co/WenchuanZhang/Patho-R1-7B) |
 | **CPathAgent** | 2025 | Agent-based FM | Agent-based foundation model that mimics pathologists' zoom-in/out navigation for interpretable high-resolution analysis (patch/region/WSI unified) | [Paper](https://arxiv.org/abs/2505.20510) |
 | **Pathology-CoT** | 2025 | Visual CoT agent | Visual chain-of-thought agent learned from expert WSI diagnosis behavior (AI Session Recorder + Pathology-o3 agent) | [Paper](https://arxiv.org/abs/2510.04587) • [Code](https://github.com/zhihuanglab/Pathology-CoT) • [Model](https://drive.google.com/file/d/1Nt43q0R9j42w6qZFXp0J0fA_NwUlgqmb/view?pli=1) |
@@ -104,6 +105,7 @@ A comprehensive, curated summary of agentic AI systems, LLM agents, and copilots
 
 | Name | Year | Scope | Key Contribution | Resources |
 |---|---|---|---|---|
+| **LLM Design Choices in Pathology** | 2026 | MultiPathQA; GPT-5 + others | Systematic study showing that seemingly minor input design factors — inference mode, patch size, magnification and patch count — dominate general-purpose LLM performance on WSIs; optimized configs lift GPT-5 cancer-type classification 15.1%->39.5% and organ classification 38.1%->62.9% on MultiPathQA, narrowing the gap to specialized models | [Paper](https://arxiv.org/abs/2606.12407) |
 | **PathAgentBench** | 2026 | Evidence-seeking VLM benchmark | Benchmark for evaluating evidence-seeking vision-language models on whole-slide pathology images | [Paper](https://arxiv.org/abs/2607.19261) |
 
 ---

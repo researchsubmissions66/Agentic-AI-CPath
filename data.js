@@ -87,6 +87,25 @@ const modelData = [
     "category": "Reasoning & Diagnostic Agents",
     "models": [
       {
+        "name": "PathMem",
+        "year": 2026,
+        "date": "2026-03-10",
+        "data": "Memory framework for pathology MLLMs",
+        "idea": "Memory-centric multimodal framework for pathology MLLMs inspired by pathologists' hierarchical memory: it stores structured knowledge (taxonomy, grading criteria, evidence) as long-term memory and a Memory Transformer models the long-term->working-memory transition via multimodal activation and context-aware grounding, improving WSI report generation and open-ended diagnosis",
+        "audit_backbone": "Pathology MLLM + Memory Transformer",
+        "audit_architecture": "Structured pathology knowledge as long-term memory -> working memory via multimodal memory activation + context-aware knowledge grounding",
+        "audit_tasks": "WSI report generation, open-ended diagnosis",
+        "audit_benchmark": "WSI-Bench (+12.8% WSI-Precision, +10.1% WSI-Relevance; +9.7% / +8.9% open-ended diagnosis)",
+        "audit_paradigm": "Memory-augmented multimodal reasoning",
+        "audit_result": "SOTA over prior WSI-based models on report generation and diagnosis",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2603.09943",
+        "bibtex": "@misc{li2026pathmemcognitionalignedmemorytransformation,\n      title={PathMem: Toward Cognition-Aligned Memory Transformation for Pathology MLLMs}, \n      author={Jinyue Li and Yuci Liang and Qiankun Li and Xinheng Lyu and Jiayu Qian and Huabao Chen and Kun Wang and Zhigang Zeng and Anil Anthony Bharath and Yang Liu},\n      year={2026},\n      eprint={2603.09943},\n      archivePrefix={arXiv},\n      primaryClass={cs.AI},\n      url={https://arxiv.org/abs/2603.09943}, \n}",
+        "paper_title": "PathMem: Toward Cognition-Aligned Memory Transformation for Pathology MLLMs",
+        "paper_author": "Li"
+      },
+      {
         "name": "Patho-R1",
         "year": 2025,
         "date": "2025-05-16",
@@ -805,6 +824,24 @@ const modelData = [
   {
     "category": "Benchmarks & Evaluation",
     "models": [
+      {
+        "name": "LLM Design Choices in Pathology",
+        "year": 2026,
+        "date": "2026-06-10",
+        "data": "MultiPathQA; GPT-5 + others",
+        "idea": "Systematic study showing that seemingly minor input design factors — inference mode, patch size, magnification and patch count — dominate general-purpose LLM performance on WSIs; optimized configs lift GPT-5 cancer-type classification 15.1%->39.5% and organ classification 38.1%->62.9% on MultiPathQA, narrowing the gap to specialized models",
+        "audit_architecture": "Ablation of four input design factors (inference mode, patch size, magnification, patch count) for LLMs on WSIs",
+        "audit_tasks": "Cancer-type & organ classification (MultiPathQA)",
+        "audit_domain": "Whole-slide pathology QA",
+        "audit_benchmark": "MultiPathQA; evaluated on GPT-5 and multiple models + held-out datasets",
+        "audit_result": "Prior work underestimated generalist LLMs via suboptimal inputs; larger patches at lower magnification processed jointly work best",
+        "github": "",
+        "hf": "",
+        "paper": "https://arxiv.org/abs/2606.12407",
+        "bibtex": "@misc{weihrauch2026seeminglyinconsequentialdesignchoices,\n      title={How Seemingly Inconsequential Design Choices Dictate Performance of LLMs in Pathology}, \n      author={Kian R. Weihrauch and Thomas A. Buckley and William Lotter and Arjun K. Manrai},\n      year={2026},\n      eprint={2606.12407},\n      archivePrefix={arXiv},\n      primaryClass={cs.CV},\n      url={https://arxiv.org/abs/2606.12407}, \n}",
+        "paper_title": "How Seemingly Inconsequential Design Choices Dictate Performance of LLMs in Pathology",
+        "paper_author": "Weihrauch"
+      },
       {
         "name": "PathAgentBench",
         "year": 2026,
